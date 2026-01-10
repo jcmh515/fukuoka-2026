@@ -13,6 +13,8 @@
     
     <link rel="manifest" href="manifest.json">
 
+    <link rel="preload" as="image" href="bg.jpg">
+
     <link rel="apple-touch-icon" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
     <link rel="icon" type="image/png" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
 
@@ -40,45 +42,41 @@
             padding-bottom: 90px;
         }
 
-        /* === 🔧 背景層 (固定 + 顯示更多圖片 + 50%透明) === */
+        /* === 🔧 背景層 (這就是你的 Loading 畫面) === */
         #bg-layer {
             position: fixed;
-            top: 0;
+            top: -10vh;
             left: 0;
             width: 100vw;
-            
-            /* 使用 100lvh 鎖定最大高度，解決滑動跳動 */
-            height: 100vh;
-            height: 100lvh;
-            
+            height: 120vh; /* 故意做大一點防止露底 */
             z-index: -999;
             
-            /* 圖片設定 */
+            /* ⚠️ 圖片 */
             background-image: url('bg.jpg'); 
-            
-            /* center top: 確保睇到上方天空同鳥居頂 */
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
             
             background-attachment: fixed; 
 
-            /* 50% 白色透明濾鏡 */
+            /* 50% 透明白色濾鏡 */
             background-color: rgba(255, 255, 255, 0.5); 
             background-blend-mode: overlay;
             
-            /* 移除模糊，移除放大，睇得清楚D */
             filter: none;
             transform: none;
             
             pointer-events: none;
+            
+            /* 背景層不設動畫，一打開就係度！ */
+            opacity: 1; 
         }
 
-        /* === ✨ 開場動畫設定 (新增部分) === */
+        /* === ✨ 開場動畫設定 === */
         @keyframes startupFadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(15px); /* 輕微由下升上 */
+                transform: translateY(20px); /* 內容由下升上 */
             }
             100% {
                 opacity: 1;
@@ -86,11 +84,13 @@
             }
         }
 
-        /* 將動畫套用到 Header, Main, Nav */
+        /* 將動畫套用到 Header, Main, Bottom-Nav 
+           邏輯：一開始 opacity: 0 (隱形)，等你睇 1秒 背景之後，先慢慢浮現。
+        */
         header, main, .bottom-nav {
-            opacity: 0; /* 一開始隱藏 */
-            animation: startupFadeIn 0.8s ease-out forwards;
-            animation-delay: 1.0s; /* ⏳ 等待 1 秒才開始顯示！ */
+            opacity: 0; /* 初始狀態：隱藏 */
+            animation: startupFadeIn 0.8s ease-out forwards; /* 浮現動畫 0.8秒 */
+            animation-delay: 1.0s; /* ⏳ 延遲 1秒 執行 (這 1秒就是你的背景展示時間) */
         }
 
         /* === 卡片樣式 === */
@@ -189,10 +189,8 @@
             display: none;
         }
 
-        /* 這裡原本有 fadeIn 動畫，但為了配合開場動畫，我們稍微簡化它，避免衝突 */
         .active-section {
             display: block;
-            /* 只需要 display block，透明度由 main 統一控制開場 */
         }
 
         .section-title {
