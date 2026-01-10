@@ -3,18 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>福岡之旅</title>
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1e3c72">
+    
+    <link rel="manifest" href="manifest.json">
 
-    <link rel="apple-touch-icon"
-        href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
-    <link rel="icon" type="image/png"
-        href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
+    <link rel="apple-touch-icon" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
+    <link rel="icon" type="image/png" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -27,64 +27,62 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f2f4f8; 
             color: #333;
+            /* 這是防止背景捲動的關鍵：讓 Body 自己負責捲動，而不是瀏覽器視窗 */
+            position: relative;
             padding-bottom: 90px;
-            overflow-x: hidden;
         }
 
-        /* === 🔧 背景層 (固定修復版) === */
+        /* === 🔧 背景層 (絕對鎖死版) === */
         #bg-layer {
-            position: fixed;
+            position: fixed; /* 固定定位：永遠釘死在視窗 */
             top: 0;
             left: 0;
             width: 100vw;
+            height: 100vh;     /* 舊瀏覽器相容 */
+            height: 100lvh;    /* 新手機：忽略網址列伸縮，鎖定最大高度 */
+            z-index: -999;     /* 確保永遠在最底層 */
             
-            /* 核心修改：使用 100lvh (Largest Viewport Height) */
-            /* 這會強制背景永遠保持在「沒有網址列」時的高度，防止滑動時跳動 */
-            height: 100vh;       /* 舊手機 Fallback */
-            height: 100lvh;      /* 新手機 Fix */
-            
-            z-index: -1;
-            
-            /* ⚠️ 請確保你的圖片檔名為 bg.jpg (全小寫) */
-            background-image: url('bg.jpg');
-            
+            /* ⚠️ 圖片設定 */
+            background-image: url('bg.jpg'); 
             background-size: cover;
-            background-position: center;
+            background-position: center center;
             background-repeat: no-repeat;
             
-            /* 極限透明白色濾鏡 (5%) */
+            /* 這一行係雙重保險，令背景圖唔會跟住碌 */
+            background-attachment: fixed; 
+
+            /* === 極限透明濾鏡 === */
             background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
             filter: blur(1px);
             
-            /* 禁止過渡動畫，防止瀏覽器嘗試補間 */
-            transition: none;
-            
             /* 輕微放大防止邊緣穿崩 */
-            transform: scale(1.01);
+            transform: scale(1.02);
+            
+            /* 禁止任何指針事件，防止誤觸背景 */
+            pointer-events: none;
         }
 
         /* === 卡片樣式 (透明磨砂) === */
         .card {
-            /* 55% 不透明 */
             background: rgba(255, 255, 255, 0.55);
-            
-            /* 磨砂效果 */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            
-            /* 陰影 */
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -164,6 +162,8 @@
             padding: 20px 15px;
             max-width: 600px;
             margin: 0 auto;
+            position: relative; /* 確保內容在背景之上 */
+            z-index: 1;
         }
 
         .hidden-section {
@@ -1773,39 +1773,24 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 🔧 新增：處理日文發音的 JS (優先使用手機發音，失敗才用 Google 翻譯) ===
+        // === 3. 🔧 處理日文發音 (優先系統發音 -> 失敗轉Google) ===
         function playAudio(text) {
-            // 嘗試 1: 使用手機內建的語音合成 (Web Speech API)
-            // 這是最完美的體驗，唔洗跳轉 App，直接講
+            // 嘗試使用系統語音
             if ('speechSynthesis' in window) {
-                // 先停止任何正在播放的聲音
-                window.speechSynthesis.cancel();
-
+                window.speechSynthesis.cancel(); // 停止舊的
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ja-JP'; // 設定為日文
-                utterance.rate = 0.9;     // 語速稍慢一點點，清楚啲
-                
-                // 播放
+                utterance.lang = 'ja-JP'; 
+                utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
-                
-                // 視覺反饋：簡單改變按鈕顏色 (可選)
-                console.log("嘗試使用系統語音播放...");
             } else {
-                // 嘗試 2: 如果手機太舊無 Web Speech API，先用 Google Translate 網頁版
-                fallbackToGoogle(text);
+                // 系統不支援則用 Google Translate
+                const encodedText = encodeURIComponent(text);
+                const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
+                window.open(url, '_blank');
             }
         }
 
-        function fallbackToGoogle(text) {
-            const encodedText = encodeURIComponent(text);
-            // 🔧 改用 Google 翻譯的 "行動版網頁介面 (/m)"
-            // 這個介面雖然舊，但強制填入參數的能力最強，Android 不會漏字
-            const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
-            window.open(url, '_blank');
-        }
-
         // === 4. 數簿連線邏輯 ===
-        // 已更新為你的私人 Google Script URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
         let isFetching = false;
         async function fetchRealTimeData() {
@@ -1867,18 +1852,15 @@
         setInterval(fetchRealTimeData, 4000);
         fetchRealTimeData();
 
-        // === 5. 🎒 行李清單自動儲存 (Local Storage) ===
-        // 就算 F5 刷新，剔過的野都會留低！
+        // === 5. 🎒 行李清單自動儲存 ===
         function initPackingList() {
             const checkboxes = document.querySelectorAll('#packing input[type="checkbox"]');
             checkboxes.forEach((box, index) => {
                 const storageKey = 'packing_chk_' + index;
-                // 1. 載入時 Check 狀態
                 const savedState = localStorage.getItem(storageKey);
                 if (savedState === 'true') {
                     box.checked = true;
                 }
-                // 2. 改變時 Save 狀態
                 box.addEventListener('change', function () {
                     localStorage.setItem(storageKey, this.checked);
                 });
