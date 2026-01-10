@@ -38,14 +38,13 @@
         /* === 🔧 背景層 (Background Layer) - 固定修復版 === */
         #bg-layer {
             position: fixed;
-            /* 使用上下左右 0 來釘死背景，解決手機網址列伸縮導致的跳動 */
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: -1;
             
-            /* ⚠️ 請將圖片改名為 bg.jpg (全小寫) 以防萬一 */
+            /* ⚠️ 請確保圖片檔名為 bg.jpg */
             background-image: url('bg.jpg');
             
             background-size: cover;
@@ -53,36 +52,25 @@
             background-repeat: no-repeat;
             
             /* === 極限透明調整 (5%) === */
-            /* 幾乎不加白，保留原圖色彩 */
             background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
-            /* 輕微模糊 */
             filter: blur(1px);
-            
-            /* 稍微放大防止手機邊緣穿崩 */
             transform: scale(1.02); 
         }
 
         /* === 卡片樣式 (超級透明版) === */
         .card {
-            /* 55% 不透明，非常透 */
+            /* 55% 不透明 */
             background: rgba(255, 255, 255, 0.55);
-            
-            /* 磨砂效果 */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            
-            /* 加深陰影，確保字體浮起 */
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            
             position: relative;
             overflow: hidden;
-            
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -93,7 +81,6 @@
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
             padding-bottom: 10px;
             font-weight: 700;
-            /* 文字發光邊框，防止背景太花睇唔到字 */
             text-shadow: 0 0 5px rgba(255, 255, 255, 1); 
         }
 
@@ -223,6 +210,12 @@
         .btn-speak:active {
             transform: scale(0.9);
             background-color: #bbdefb;
+        }
+
+        /* 播放中狀態 */
+        .speaking {
+            background-color: #ffeb3b !important;
+            transform: scale(1.1);
         }
 
         .btn-speak i {
@@ -1770,10 +1763,33 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 新增：處理日文發音 (🔧 Android 修正版) ===
+        // === 3. 🔧 新增：處理日文發音的 JS (優先使用手機發音，失敗才用 Google 翻譯) ===
         function playAudio(text) {
+            // 嘗試 1: 使用手機內建的語音合成 (Web Speech API)
+            // 這是最完美的體驗，唔洗跳轉 App，直接講
+            if ('speechSynthesis' in window) {
+                // 先停止任何正在播放的聲音
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP'; // 設定為日文
+                utterance.rate = 0.9;     // 語速稍慢一點點，清楚啲
+                
+                // 播放
+                window.speechSynthesis.speak(utterance);
+                
+                // 視覺反饋：簡單改變按鈕顏色 (可選)
+                console.log("嘗試使用系統語音播放...");
+            } else {
+                // 嘗試 2: 如果手機太舊無 Web Speech API，先用 Google Translate 網頁版
+                fallbackToGoogle(text);
+            }
+        }
+
+        function fallbackToGoogle(text) {
             const encodedText = encodeURIComponent(text);
-            // 改用 "/m" (行動版網頁)，這個參數 q=... 在所有手機瀏覽器上都支援
+            // 🔧 改用 Google 翻譯的 "行動版網頁介面 (/m)"
+            // 這個介面雖然舊，但強制填入參數的能力最強，Android 不會漏字
             const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
             window.open(url, '_blank');
         }
@@ -1842,14 +1858,17 @@
         fetchRealTimeData();
 
         // === 5. 🎒 行李清單自動儲存 (Local Storage) ===
+        // 就算 F5 刷新，剔過的野都會留低！
         function initPackingList() {
             const checkboxes = document.querySelectorAll('#packing input[type="checkbox"]');
             checkboxes.forEach((box, index) => {
                 const storageKey = 'packing_chk_' + index;
+                // 1. 載入時 Check 狀態
                 const savedState = localStorage.getItem(storageKey);
                 if (savedState === 'true') {
                     box.checked = true;
                 }
+                // 2. 改變時 Save 狀態
                 box.addEventListener('change', function () {
                     localStorage.setItem(storageKey, this.checked);
                 });
