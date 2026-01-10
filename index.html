@@ -35,76 +35,78 @@
             overflow-x: hidden;
         }
 
-        /* === 修改後的背景層 (解決跳動 + 柔化效果) === */
+        /* === 修改後的背景層 (更清晰顯示背景圖) === */
         #bg-layer {
-            position: fixed; /* 關鍵：鎖定背景，防止滑動時縮放 */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: -1;
             
-            /* 使用新圖片 */
+            /* ⚠️ 請確保你的圖片檔名真的是 PIC.jpeg (分大細寫) */
             background-image: url('PIC.jpeg');
+            
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             
-            /* === 背景淡化魔法 === */
-            /* 疊加一層 60% 的白色，令圖片變淡 */
-            background-color: rgba(255, 255, 255, 0.6); 
+            /* === 背景調整 === */
+            /* 之前是 0.6 (太白)，現在改做 0.1 (只加一點點白光)，確保睇到圖 */
+            background-color: rgba(255, 255, 255, 0.1); 
             background-blend-mode: overlay;
             
-            /* 輕微模糊，讓文字更突出 */
-            filter: blur(3px);
+            /* 模糊度降低，讓背景清楚一點點 */
+            filter: blur(2px);
             
-            /* 輕微放大防止模糊邊緣穿崩 */
             transform: scale(1.02); 
         }
 
-        /* === 修改後的卡片樣式 (磨砂玻璃) === */
+        /* === 修改後的卡片樣式 (更透明) === */
         .card {
-            /* 70% 不透明白色，增加通透感 (你要求的調整) */
-            background: rgba(255, 255, 255, 0.7);
+            /* 👇 這裡改成了 0.55 (55%不透明)，比之前更透 */
+            background: rgba(255, 255, 255, 0.55);
             
-            /* 磨砂濾鏡 (毛玻璃效果) */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            /* 磨砂濾鏡 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
             
-            /* 加深陰影，增加立體感 */
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            /* 陰影加深，確保文字在透明背景上依然突出 */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             
             position: relative;
             overflow: hidden;
             
-            /* 極幼白邊，增加精緻度 */
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            /* 邊框更加透明 */
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .card h3 {
             font-size: 1.1rem;
-            color: #444;
+            color: #222; /* 字體加深少少，因為背景透左 */
             margin-bottom: 15px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
             padding-bottom: 10px;
-            font-weight: 600;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8); /* 加發光效果保護文字 */
         }
 
-        /* === Header === */
+        /* === Header (更透明) === */
         header {
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95) 0%, rgba(42, 82, 152, 0.95) 100%);
-            backdrop-filter: blur(5px);
+            /* Header 也調透明一點 */
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.85) 0%, rgba(42, 82, 152, 0.85) 100%);
+            backdrop-filter: blur(8px);
             color: white;
             padding: 25px 15px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
         }
@@ -184,7 +186,7 @@
         .section-title {
             text-align: center;
             margin: 10px 0 25px;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+            text-shadow: 0 2px 10px rgba(255,255,255,0.9);
         }
 
         .section-title h2 {
@@ -194,17 +196,17 @@
         }
 
         .section-title p {
-            color: #444;
+            color: #333;
             font-size: 0.9rem;
             margin-top: 5px;
-            font-weight: 500;
+            font-weight: 600;
         }
         
-        /* === 新增：發音按鈕樣式 === */
+        /* === 發音按鈕樣式 === */
         .btn-speak {
             display: inline-block;
             margin-left: 8px;
-            background-color: #e3f2fd;
+            background-color: rgba(227, 242, 253, 0.9);
             color: #1e3c72;
             width: 28px;
             height: 28px;
@@ -234,12 +236,13 @@
 
         .stat-box {
             flex: 1;
-            background: rgba(51, 51, 51, 0.9);
+            background: rgba(51, 51, 51, 0.8);
             color: white;
             padding: 15px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         .stat-label {
@@ -329,7 +332,7 @@
 
         .countdown-box {
             margin-top: 15px;
-            background: rgba(227, 242, 253, 0.7);
+            background: rgba(227, 242, 253, 0.6);
             color: #1565c0;
             padding: 12px;
             border-radius: 12px;
@@ -339,7 +342,7 @@
 
         .vibes-box {
             margin-top: 15px;
-            background: rgba(255, 243, 224, 0.7);
+            background: rgba(255, 243, 224, 0.6);
             border: 2px dashed #ff9800;
             border-radius: 12px;
             padding: 15px;
@@ -362,7 +365,7 @@
         }
 
         .member-item {
-            background: #f1f3f5;
+            background: rgba(241, 243, 245, 0.9);
             padding: 8px 14px;
             border-radius: 25px;
             font-size: 0.9rem;
@@ -486,7 +489,7 @@
         }
 
         .day-header {
-            background: rgba(30, 60, 114, 0.9);
+            background: rgba(30, 60, 114, 0.85);
             color: white;
             padding: 10px 15px;
             border-radius: 10px;
@@ -497,7 +500,7 @@
         }
 
         .timeline {
-            border-left: 3px solid rgba(255, 255, 255, 0.5);
+            border-left: 3px solid rgba(255, 255, 255, 0.6);
             margin-left: 10px;
             padding-left: 25px;
         }
@@ -529,11 +532,11 @@
         }
 
         .event .desc {
-            background: rgba(255, 255, 255, 0.9); /* 內容框保持較高不透明度，易讀 */
+            background: rgba(255, 255, 255, 0.85);
             padding: 12px 15px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.4);
             backdrop-filter: blur(5px);
         }
 
@@ -546,12 +549,12 @@
 
         .highlight-box .desc {
             border-left: 4px solid #e91e63;
-            background: #fff0f5;
+            background: rgba(255, 240, 245, 0.9);
         }
 
         .shop-card {
             border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.85);
+            background: rgba(243, 229, 245, 0.75);
         }
 
         .shop-card h3 {
@@ -609,7 +612,7 @@
 
         /* === Ski & Packing === */
         .warning-card {
-            background: rgba(255, 245, 245, 0.85);
+            background: rgba(255, 245, 245, 0.75);
             border-left: 5px solid #c62828;
         }
 
@@ -620,7 +623,7 @@
 
         .outfit-card {
             border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.85);
+            background: rgba(243, 229, 245, 0.75);
         }
 
         .outfit-card h3 {
@@ -629,7 +632,7 @@
         }
 
         .tips-card-a {
-            background: rgba(232, 245, 233, 0.85);
+            background: rgba(232, 245, 233, 0.75);
             border-left: 5px solid #2e7d32;
         }
 
@@ -639,7 +642,7 @@
         }
 
         .tips-card-b {
-            background: rgba(227, 242, 253, 0.85);
+            background: rgba(227, 242, 253, 0.75);
             border-left: 5px solid #1565c0;
         }
 
@@ -649,7 +652,7 @@
         }
 
         .language-card {
-            background: rgba(255, 243, 224, 0.85);
+            background: rgba(255, 243, 224, 0.75);
             border-left: 5px solid #ef6c00;
         }
 
@@ -674,11 +677,11 @@
         }
 
         .weather-city {
-            background: linear-gradient(135deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.8), rgba(0, 242, 254, 0.8));
         }
 
         .weather-ski {
-            background: linear-gradient(135deg, rgba(161, 140, 209, 0.9), rgba(251, 194, 235, 0.9));
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.8), rgba(251, 194, 235, 0.8));
         }
 
         .weather-box h4 {
@@ -694,7 +697,7 @@
         .btn-jma {
             display: block;
             width: 100%;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.8);
             border: none;
             color: #1e3c72;
             text-align: center;
@@ -727,7 +730,7 @@
 
         .alert-card {
             border: 2px solid #c62828;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .checklist li {
@@ -751,37 +754,37 @@
 
         .check-card[style*="2196f3"] {
             border-left: 5px solid #2196f3;
-            background: rgba(227, 242, 253, 0.85);
+            background: rgba(227, 242, 253, 0.75);
         }
 
         .check-card[style*="e91e63"] {
             border-left: 5px solid #e91e63;
-            background: rgba(252, 228, 236, 0.85);
+            background: rgba(252, 228, 236, 0.75);
         }
 
         .check-card[style*="009688"] {
             border-left: 5px solid #009688;
-            background: rgba(224, 242, 241, 0.85);
+            background: rgba(224, 242, 241, 0.75);
         }
 
         .check-card[style*="3f51b5"] {
             border-left: 5px solid #3f51b5;
-            background: rgba(232, 234, 246, 0.85);
+            background: rgba(232, 234, 246, 0.75);
         }
 
         .check-card[style*="9c27b0"] {
             border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.85);
+            background: rgba(243, 229, 245, 0.75);
         }
 
         .check-card[style*="fbc02d"] {
             border-left: 5px solid #fbc02d;
-            background: rgba(255, 249, 196, 0.85);
+            background: rgba(255, 249, 196, 0.75);
         }
         
         .check-card[style*="ff4081"] {
             border-left: 5px solid #ff4081;
-            background: rgba(255, 240, 246, 0.85);
+            background: rgba(255, 240, 246, 0.75);
         }
 
         /* === Accounts / Form === */
@@ -860,12 +863,12 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.85);
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 12px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.4);
             transition: transform 0.1s;
         }
 
@@ -884,7 +887,7 @@
         .booking-item .code {
             font-family: 'Courier New', monospace;
             font-weight: bold;
-            background: #f1f3f5;
+            background: rgba(241, 243, 245, 0.9);
             padding: 6px 10px;
             border-radius: 6px;
             color: #1e3c72;
@@ -908,8 +911,8 @@
             left: 0;
             width: 100%;
             
-            /* 70% 透明度 (你要求的調整) */
-            background: rgba(255, 255, 255, 0.7);
+            /* 導航欄透明度 */
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             
@@ -918,7 +921,7 @@
             padding: 10px 0 15px;
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
             z-index: 999;
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nav-btn {
@@ -1408,7 +1411,7 @@
                         <td style="padding:8px 5px;">
                             <strong>膝を曲げて</strong><br>
                             <em style="color:#888;">(Hiza o magete)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=膝を曲げて&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=膝を曲げて&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1419,7 +1422,7 @@
                         <td style="padding:8px 5px;">
                             <strong>前を見て</strong><br>
                             <em style="color:#888;">(Mae o mite)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=前を見て&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=前を見て&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1430,7 +1433,7 @@
                         <td style="padding:8px 5px;">
                             <strong>かかとに重心</strong><br>
                             <em style="color:#888;">(Kakato ni juushin)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=かかとに重心&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=かかとに重心&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1441,7 +1444,7 @@
                         <td style="padding:8px 5px;">
                             <strong>ゆっくり立って</strong><br>
                             <em style="color:#888;">(Yukkuri tatte)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=ゆっくり立って&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=ゆっくり立って&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1452,7 +1455,7 @@
                         <td style="padding:8px 5px;">
                             <strong>止まって！</strong><br>
                             <em style="color:#888;">(Tomatte!)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=止まって&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=止まって&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1463,7 +1466,7 @@
                         <td style="padding:8px 5px;">
                             <strong>大丈夫ですか？</strong><br>
                             <em style="color:#888;">(Daijoubu desu ka?)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=大丈夫ですか&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=大丈夫ですか&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1474,7 +1477,7 @@
                         <td style="padding:8px 5px;">
                             <strong>一人ずつ</strong><br>
                             <em style="color:#888;">(Hitori zutsu)</em>
-                            <a href="https://translate.google.com/?sl=ja&text=一人ずつ&op=translate" target="_blank" class="btn-speak">
+                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=一人ずつ&op=translate" target="_blank" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
