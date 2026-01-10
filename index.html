@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* === 修改後的背景層 (更清晰顯示背景圖) === */
+        /* === 背景層 (Background Layer) === */
         #bg-layer {
             position: fixed;
             top: 0;
@@ -44,60 +44,60 @@
             height: 100vh;
             z-index: -1;
             
-            /* ⚠️ 請確保你的圖片檔名真的是 PIC.jpeg (分大細寫) */
+            /* ⚠️ 重要：請確保你的圖片檔名完全一樣 (包括大小寫) */
+            /* 如果你的圖是 pic.jpeg，請自行改下面這行 */
             background-image: url('PIC.jpeg');
             
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             
-            /* === 背景調整 === */
-            /* 之前是 0.6 (太白)，現在改做 0.1 (只加一點點白光)，確保睇到圖 */
-            background-color: rgba(255, 255, 255, 0.1); 
+            /* === 極限透明調整 === */
+            /* 幾乎不加白，只加 5% 白色，保留原圖色彩 */
+            background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
-            /* 模糊度降低，讓背景清楚一點點 */
-            filter: blur(2px);
+            /* 輕微模糊，讓文字好讀一點點，如果想看清圖可改 0px */
+            filter: blur(1px);
             
             transform: scale(1.02); 
         }
 
-        /* === 修改後的卡片樣式 (更透明) === */
+        /* === 卡片樣式 (超級透明版) === */
         .card {
-            /* 👇 這裡改成了 0.55 (55%不透明)，比之前更透 */
-            background: rgba(255, 255, 255, 0.25);
+            /* 55% 不透明，非常透 */
+            background: rgba(255, 255, 255, 0.55);
             
-            /* 磨砂濾鏡 */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 磨砂效果 */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
             
-            /* 陰影加深，確保文字在透明背景上依然突出 */
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            /* 加深陰影，確保字體浮起 */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
             
             position: relative;
             overflow: hidden;
             
-            /* 邊框更加透明 */
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .card h3 {
             font-size: 1.1rem;
-            color: #222; /* 字體加深少少，因為背景透左 */
+            color: #222;
             margin-bottom: 15px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
             padding-bottom: 10px;
             font-weight: 700;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8); /* 加發光效果保護文字 */
+            /* 文字發光邊框，防止背景太花睇唔到字 */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 1); 
         }
 
-        /* === Header (更透明) === */
+        /* === Header === */
         header {
-            /* Header 也調透明一點 */
             background: linear-gradient(135deg, rgba(30, 60, 114, 0.85) 0%, rgba(42, 82, 152, 0.85) 100%);
             backdrop-filter: blur(8px);
             color: white;
@@ -214,6 +214,7 @@
             text-align: center;
             border-radius: 50%;
             text-decoration: none;
+            cursor: pointer; /* 加上手指游標 */
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: transform 0.1s;
         }
@@ -1411,7 +1412,7 @@
                         <td style="padding:8px 5px;">
                             <strong>膝を曲げて</strong><br>
                             <em style="color:#888;">(Hiza o magete)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=膝を曲げて&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('膝を曲げて')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1422,7 +1423,7 @@
                         <td style="padding:8px 5px;">
                             <strong>前を見て</strong><br>
                             <em style="color:#888;">(Mae o mite)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=前を見て&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('前を見て')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1433,7 +1434,7 @@
                         <td style="padding:8px 5px;">
                             <strong>かかとに重心</strong><br>
                             <em style="color:#888;">(Kakato ni juushin)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=かかとに重心&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('かかとに重心')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1444,7 +1445,7 @@
                         <td style="padding:8px 5px;">
                             <strong>ゆっくり立って</strong><br>
                             <em style="color:#888;">(Yukkuri tatte)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=ゆっくり立って&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('ゆっくり立って')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1455,7 +1456,7 @@
                         <td style="padding:8px 5px;">
                             <strong>止まって！</strong><br>
                             <em style="color:#888;">(Tomatte!)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=止まって&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('止まって')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1466,7 +1467,7 @@
                         <td style="padding:8px 5px;">
                             <strong>大丈夫ですか？</strong><br>
                             <em style="color:#888;">(Daijoubu desu ka?)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=大丈夫ですか&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('大丈夫ですか')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1477,7 +1478,7 @@
                         <td style="padding:8px 5px;">
                             <strong>一人ずつ</strong><br>
                             <em style="color:#888;">(Hitori zutsu)</em>
-                            <a href="https://translate.google.com/?sl=ja&tl=zh-TW&text=一人ずつ&op=translate" target="_blank" class="btn-speak">
+                            <a onclick="playAudio('一人ずつ')" class="btn-speak">
                                 <i class="fas fa-volume-up"></i>
                             </a>
                         </td>
@@ -1768,7 +1769,15 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 數簿連線邏輯 ===
+        // === 3. 新增：處理日文發音的 JS (解決 URL 編碼問題) ===
+        function playAudio(text) {
+            // 使用 encodeURIComponent 將日文正確編碼
+            // 並使用 hash (#) 格式傳送，這對手機 APP 來說最穩定
+            const url = "https://translate.google.com/#ja/zh-TW/" + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+
+        // === 4. 數簿連線邏輯 ===
         // 已更新為你的私人 Google Script URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
         let isFetching = false;
@@ -1831,7 +1840,7 @@
         setInterval(fetchRealTimeData, 4000);
         fetchRealTimeData();
 
-        // === 4. 🎒 行李清單自動儲存 (Local Storage) ===
+        // === 5. 🎒 行李清單自動儲存 (Local Storage) ===
         // 就算 F5 刷新，剔過的野都會留低！
         function initPackingList() {
             const checkboxes = document.querySelectorAll('#packing input[type="checkbox"]');
