@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>福岡之旅</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="福岡之旅">
+    <meta name="theme-color" content="#1e3c72">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/512/external-torii-gate-japan-flaticons-lineal-color-flat-icons-2.png">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/512/external-torii-gate-japan-flaticons-lineal-color-flat-icons-2.png">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* === 全局設定 === */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f4f8; color: #333; padding-bottom: 90px;
+            overflow-x: hidden;
+        }
+
+        /* === Header === */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white; padding: 25px 15px; text-align: center;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        header h1 { font-size: 1.5rem; margin-bottom: 5px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 0.9rem; opacity: 0.9; letter-spacing: 1px; }
+        .header-icon { font-size: 2rem; margin-bottom: 5px; opacity: 0.8; }
+        .fa-spin-slow { animation: fa-spin 5s infinite linear; }
+
+        /* === Snow Effect === */
+        .snowflake {
+            position: fixed; top: -20px; z-index: 9999;
+            color: #fff; font-size: 1em; user-select: none; pointer-events: none;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* === Main Content === */
+        main { padding: 20px 15px; max-width: 600px; margin: 0 auto; }
+        .hidden-section { display: none; }
+        .active-section { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { text-align: center; margin: 10px 0 25px; }
+        .section-title h2 { color: #1e3c72; font-size: 1.6rem; font-weight: 700; }
+        .section-title p { color: #666; font-size: 0.9rem; margin-top: 5px; }
+
+        /* === Cards === */
+        .card {
+            background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); position: relative; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .card h3 { font-size: 1.1rem; color: #444; margin-bottom: 15px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-weight: 600; }
+
+        /* === Home Styles === */
+        .intro-card { text-align: center; background: white; }
+        .intro-card h2 { color: #1e3c72; margin-bottom: 5px; font-weight: 900; letter-spacing: -0.5px; font-size: 1.8rem; }
+        .countdown-box { margin-top: 15px; background: #e3f2fd; color: #1565c0; padding: 12px; border-radius: 12px; font-weight: bold; font-size: 0.95rem; }
+        
+        .vibes-box {
+            margin-top: 15px;
+            background: #fff3e0;
+            border: 2px dashed #ff9800;
+            border-radius: 12px;
+            padding: 15px;
+            color: #e65100;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+        .vibes-box .quote { display: block; font-size: 1.1rem; margin: 5px 0; }
+
+        .member-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .member-item { background: #f1f3f5; padding: 8px 14px; border-radius: 25px; font-size: 0.9rem; color: #555; display: flex; align-items: center; }
+        .member-item i { margin-right: 6px; }
+        .break { flex-basis: 100%; height: 0; }
+
+        .summary-list { list-style: none; padding: 0; }
+        .summary-list li { display: flex; align-items: start; margin-bottom: 12px; font-size: 0.95rem; line-height: 1.5; }
+        .date-badge { background: #1e3c72; color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; margin-right: 10px; min-width: 45px; text-align: center; margin-top: 2px; }
+
+        /* === Common Styles === */
+        .warning-card { background: #fff5f5; border-left: 5px solid #c62828; }
+        .warning-card h3 { color: #c62828; border-color: #ffcdd2; }
+        .outfit-card { border-left: 5px solid #333; background: #f5f5f5; }
+        .tips-card { background: #e3f2fd; border-left: 5px solid #1e3c72; }
+        .language-card { background: #fff8e1; border-left: 5px solid #ff9800; }
+        .language-card h3 { color: #f57c00; border-color: #ffe0b2; }
+        .weather-card { background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); color: white; border: none; }
+        
+        /* === Accounts / Expense Tracker Styles === */
+        .input-group { margin-bottom: 15px; }
+        .input-label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 0.9rem; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        
+        /* Currency Toggle */
+        .currency-toggle { display: flex; gap: 10px; margin-bottom: 15px; }
+        .currency-btn { flex: 1; padding: 10px; border: 1px solid #1e3c72; background: white; color: #1e3c72; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .currency-btn.active { background: #1e3c72; color: white; }
+
+        /* Member Select Grid */
+        .member-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        .member-option {
+            background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px;
+            padding: 8px; text-align: center; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+        .member-option.selected { background: #e3f2fd; border-color: #2196f3; color: #1565c0; font-weight: bold; }
+        
+        .btn-add-expense {
+            width: 100%; background: #2e7d32; color: white; padding: 12px; 
+            border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .btn-add-expense:active { transform: scale(0.98); }
+
+        /* History List */
+        .history-item { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid #eee; 
+        }
+        .history-info { flex: 1; }
+        .history-title { font-weight: bold; display: block; }
+        .history-meta { font-size: 0.8rem; color: #777; }
+        .history-amount { font-weight: bold; color: #1e3c72; margin-right: 10px; }
+        .btn-delete { color: #c62828; background: none; border: none; font-size: 1rem; padding: 5px; cursor: pointer; }
+
+        .total-box { 
+            background: #333; color: white; padding: 15px; border-radius: 10px; 
+            text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .total-row { display: flex; justify-content: space-around; margin-top: 5px; }
+        .total-item strong { display: block; font-size: 1.2rem; color: #4facfe; }
+
+        /* === Bottom Nav === */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-around;
+            padding: 10px 0 15px; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 999;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        .nav-btn {
+            background: none; border: none; width: 14%; 
+            font-size: 0.6rem; color: #999; cursor: pointer; transition: all 0.2s;
+        }
+        .nav-btn i { font-size: 1.2rem; margin-bottom: 4px; display: block; transition: transform 0.2s; }
+        .nav-btn.active { color: #1e3c72; font-weight: bold; }
+        .nav-btn.active i { transform: translateY(-3px); color: #1e3c72; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-icon"><i class="fas fa-snowflake fa-spin-slow"></i></div>
+        <h1>福岡集合小組 <i class="fas fa-torii-gate"></i></h1>
+        <p>2026年1月14日 - 1月17日</p>
+    </header>
+
+    <main id="content">
+        
+        <section id="home" class="active-section">
+            <div class="card intro-card">
+                <h2>ARE U READY?????</h2>
+                <p>自駕・滑雪・溫泉・美食・情緒價值之旅</p>
+                <div class="vibes-box">
+                    <i class="fas fa-bullhorn"></i> 旅程規則：<br>
+                    只可以講：<br>
+                    <span class="quote">「好玩！」😆</span>
+                    <span class="quote">「好食！」😋</span>
+                    <span class="quote">「好開心呀！」🥳</span>
+                    <span class="quote">「你真係好叻呀！」👍</span>
+                </div>
+                <div class="countdown-box"><i class="fas fa-clock"></i> 4日3夜精華遊</div>
+            </div>
+            <div class="card member-card">
+                <h3>👥 成員名單</h3>
+                <div class="member-list">
+                    <div class="member-item" style="background:#e3f2fd; color:#0d47a1; border: 1px solid #90caf9; font-weight:bold;"><i class="fas fa-crown"></i> YWS (freerider)</div>
+                    <div class="member-item" style="background:#f3e5f5; color:#6a1b9a; border: 1px solid #ce93d8;"><i class="fas fa-car"></i> Yo姐 (車手1)</div>
+                    <div class="member-item" style="background:#e8f5e9; color:#2e7d32; border: 1px solid #a5d6a7;"><i class="fas fa-car"></i> Tony (車手2)</div>
+                    <div class="member-item" style="background:#fff3e0; color:#ef6c00; border: 1px solid #ffcc80;"><i class="fas fa-magic"></i> Yela (情緒價值師)</div>
+                    <div class="member-item" style="background:#fce4ec; color:#c2185b; border: 1px solid #f48fb1;"><i class="fas fa-heart"></i> Carol</div>
+                    <div class="member-item" style="background:#e0f2f1; color:#00695c; border: 1px solid #80cbc4;"><i class="fas fa-user-secret"></i> I人</div>
+                    <div class="break"></div>
+                    <div class="member-item" style="background:#e0e0e0; color:#616161; border: 1px solid #bdbdbd;"><i class="fas fa-home"></i> 瞓覺怪☃️ (留港消費)</div>
+                </div>
+            </div>
+            <div class="card summary-card">
+                <h3>🗺️ 行程速覽</h3>
+                <ul class="summary-list">
+                    <li><span class="date-badge">1/14</span><span><strong>集合日：</strong> 分批到埗 ➔ 租車 ➔ 天神宵夜</span></li>
+                    <li><span class="date-badge">1/15</span><span><strong>體能日：</strong> 晨早滑雪 ➔ 由布院溫泉 (Carol會合)</span></li>
+                    <li><span class="date-badge">1/16</span><span><strong>移動日：</strong> 由布院散策 ➔ 返市區 ➔ 中洲屋台</span></li>
+                    <li><span class="date-badge">1/17</span><span><strong>回程日：</strong> 最後衝刺 ➔ 分批飛返歸</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="flights" class="hidden-section">
+            <div class="section-title"><h2>✈️ 航班時間表</h2></div>
+            <div class="card flight-card">
+                <div class="flight-header"><span class="badge cx">CX 國泰</span><h3>Yo姐 (最早到)</h3></div>
+                <div class="flight-route">
+                    <div class="leg"><div class="leg-time">去 1/14</div>11:05 HKG ➔ <span class="highlight">15:20 FUK</span><br><small>CX588</small></div>
+                    <div class="divider"></div>
+                    <div class="leg"><div class="leg-time">返 1/17</div><span class="highlight">14:10 FUK</span> ➔ 17:20 HKG<br><small>CX513</small></div>
+                </div>
+            </div>
+            <div class="card flight-card">
+                <div class="flight-header"><span class="badge lcc">內陸機</span><h3>YWS, Yela, Tony</h3></div>
+                <div class="flight-route">
+                    <div class="leg"><div class="leg-time">去 1/14</div>16:15 NRT ➔ <span class="highlight">18:35 FUK</span><br><small>MM365 (YWS)</small></div>
+                    <div class="divider"></div>
+                    <div class="leg"><div class="leg-time">返 1/17 (Yela/Tony)</div><span class="highlight">18:05 FUK</span> ➔ HKG<br><small>國際線</small></div>
+                    <div class="leg mt-2"><div class="leg-time">返 1/17 (YWS)</div><span class="highlight">19:10 FUK</span> ➔ 21:00 NRT<br><small>GK516</small></div>
+                </div>
+            </div>
+            <div class="card flight-card">
+                <div class="flight-header"><span class="badge cx">CX 國泰</span><h3>Carol & BF</h3></div>
+                <div class="flight-route">
+                    <div class="leg"><div class="leg-time">去 1/15</div>11:05 HKG ➔ <span class="highlight">15:20 FUK</span><br><small>CX588</small></div>
+                    <div class="divider"></div>
+                    <div class="leg"><div class="leg-time">返 1/22</div>14:10 FUK ➔ 17:20 HKG<br><small>CX513</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="itinerary" class="hidden-section">
+            <div class="section-title"><h2>🗓️ 詳細行程</h2></div>
+            <div class="day-block">
+                <div class="day-header">Day 1: 1月14日 (三)</div>
+                <div class="timeline">
+                    <div class="event"><div class="time">15:20</div><div class="desc"><strong>Yo姐 抵達</strong> (國際線)<br><span class="note">可先去天神行街/去國內線等</span></div></div>
+                    <div class="event"><div class="time">18:35</div><div class="desc"><strong>東京組 抵達</strong> (國內線)<br><span class="note">YWS, Yela, Tony 集合！</span></div></div>
+                    <div class="event"><div class="time">19:00</div><div class="desc"><strong>🚗 取車 (IX Rental)</strong><br><span class="note">Yo/Tony 帶國際牌 & 護照</span></div></div>
+                    <div class="event"><div class="time">20:30</div><div class="desc"><strong>Check-in & 補給</strong><br>🏨 天神東方快捷酒店<br>PIN: <strong>9276</strong><br>🛒 <strong style="color:red">任務: 買定聽朝早餐+滑雪零食</strong></div></div>
+                </div>
+            </div>
+            <div class="day-block">
+                <div class="day-header">Day 2: 1月15日 (四)</div>
+                <div class="timeline">
+                    <div class="event"><div class="time">06:00</div><div class="desc"><strong>🥶 早起出發！</strong><br>前往九重滑雪場 (車程2hr)</div></div>
+                    <div class="event"><div class="time">09:10</div><div class="desc"><span class="badge deadline">DEADLINE</span> <strong>滑雪學校報到</strong><br>遲到會被取消！準備現金。</div></div>
+                    <div class="event"><div class="time">09:30</div><div class="desc"><strong>🏂 Snowboard 課程</strong> (90mins)</div></div>
+                    <div class="event"><div class="time">15:20</div><div class="desc"><strong>Carol 抵達福岡</strong><br>👉 落機即衝國際線巴士站 (1/F)<br>🚌 搭 16:08 巴士直去由布院</div></div>
+                    <div class="event"><div class="time">17:30</div><div class="desc"><strong>🏨 溫泉旅館 Check-in</strong><br>📍 由布院 (Carol會合)<br><strong style="color:#d32f2f;">⚠️ 18:00 準時開餐 (逾時不候)</strong></div></div>
+                </div>
+            </div>
+            <div class="day-block"><div class="day-header">Day 3: 1月16日 (五)</div><div class="timeline"><div class="event"><div class="time">11:00</div><div class="desc"><strong>大隊 Check-out</strong><br>自駕返福岡市區</div></div><div class="event highlight-box"><div class="time">Note</div><div class="desc"><strong>🌸 Carol 組行程分離</strong><br>繼續留守由布院</div></div><div class="event"><div class="time">15:00</div><div class="desc"><strong>🚗 機場還車</strong> (IX Rental)</div></div><div class="event"><div class="time">16:00</div><div class="desc"><strong>🏨 Canvas 中洲 Check-in</strong></div></div><div class="event"><div class="time">19:00</div><div class="desc"><strong>🍻 中洲之夜</strong> (屋台/牛腸鍋)</div></div></div></div>
+            <div class="day-block"><div class="day-header">Day 4: 1月17日 (六)</div><div class="timeline"><div class="event"><div class="time">12:00</div><div class="desc"><strong>👋 Yo姐 飛</strong> (14:10 CX513)</div></div><div class="event"><div class="time">16:00</div><div class="desc"><strong>👋 Yela/Tony 飛</strong> (18:05)</div></div><div class="event"><div class="time">17:00</div><div class="desc"><strong>👋 YWS 飛成田</strong> (19:10 GK516)</div></div></div></div>
+        </section>
+
+        <section id="ski" class="hidden-section">
+            <div class="section-title"><h2>🏂 滑雪攻略大全</h2></div>
+            <div class="card warning-card"><h3>⚠️ 必讀重點</h3><ul><li><strong>09:10 DEADLINE</strong></li><li><strong>現金 Only</strong></li></ul></div>
+            <div class="weather-container" style="display:flex; gap:10px; margin-bottom:10px;">
+                <div class="weather-box" style="flex:1; padding:10px; border-radius:10px; text-align:center; color:white; background:linear-gradient(135deg, #4facfe, #00f2fe);"><h4>🏙️ 福岡市</h4><div>3°C - 10°C</div></div>
+                <div class="weather-box" style="flex:1; padding:10px; border-radius:10px; text-align:center; color:white; background:linear-gradient(135deg, #a18cd1, #fbc2eb);"><h4>🏔️ 滑雪場</h4><div>-3°C - 5°C</div></div>
+            </div>
+            <a href="https://www.data.jma.go.jp/multi/yoho/yoho_detail.html?code=400010&lang=cn_zt" target="_blank" class="btn-jma" style="display:block; width:100%; background:#1e3c72; color:white; text-align:center; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:10px;">JMA 實時天氣</a>
+            
+            <div class="card outfit-card" style="margin-top:20px;"><h3>👔 當日著咩好？</h3><ul class="outfit-list"><li><strong>1. Base:</strong> Heattech</li><li><strong>2. Mid:</strong> 衛衣/Fleece</li><li><strong>3. Outer:</strong> 雪褸褲</li><li><strong>4. 下身:</strong> Leggings > 護臀 > 雪褲</li></ul></div>
+            <div class="card tips-card"><h3>🐣 新手保命</h3><ul><li>視線望前</li><li>Toes Up (腳趾翹起)</li></ul></div>
+            <div class="card language-card"><h3>🗣️ 教練指令</h3><table><tr><td>膝 (Hiza)</td><td>曲腳</td></tr><tr><td>前 (Mae)</td><td>望前</td></tr></table></div>
+        </section>
+
+        <section id="packing" class="hidden-section">
+            <div class="section-title"><h2>🎒 行李與必帶清單</h2></div>
+            <div class="card check-card" style="border-left:5px solid #ff4081; background:#fff0f6;"><h3>😍 心情 (最重要!)</h3><ul class="checklist"><li><input type="checkbox" checked> <strong>最靚嘅心情呀！^O^</strong></li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #2196f3; background:#e3f2fd;"><h3>📄 必備文件</h3><ul class="checklist"><li><input type="checkbox"> 護照 & 身份證</li><li><input type="checkbox"> Visit Japan Web</li><li><input type="checkbox"> 現金 & 信用卡</li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #009688; background:#e0f2f1;"><h3>👕 衣物 & 滑雪</h3><ul class="checklist"><li><input type="checkbox"> 底衫褲 & 替換衣物</li><li><input type="checkbox"> Heattech & 襪</li><li><input type="checkbox"> 護臀褲 & 假狗</li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #e91e63; background:#fce4ec;"><h3>🧴 個人護理</h3><ul class="checklist"><li><input type="checkbox"> 化妝品/卸妝</li><li><input type="checkbox"> 毛巾 & 梳</li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #9c27b0; background:#f3e5f5;"><h3>💊 藥物 & 雜項</h3><ul class="checklist"><li><input type="checkbox"> 鎮痛貼/止痛藥</li><li><input type="checkbox"> 潤唇膏/暖包/膠袋</li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #3f51b5; background:#e8eaf6;"><h3>🔌 電子</h3><ul class="checklist"><li><input type="checkbox"> 轉插 & 線 & 尿袋</li></ul></div>
+            <div class="card check-card" style="border-left:5px solid #fbc02d; background:#fff9c4;"><h3>🎲 桌遊 (放底)</h3><ul class="checklist"><li><input type="checkbox"> Avalon & 驚爆倫敦</li></ul></div>
+            <div class="card alert-card"><h3>⚠️ YWS 警告</h3><p>7KG 手提 Only!</p></div>
+        </section>
+
+        <section id="accounts" class="hidden-section">
+            <div class="section-title"><h2>💰 智能記帳</h2></div>
+            
+            <div class="card total-box" style="background:#333; color:white; padding:15px; border-radius:10px; text-align:center; margin-bottom:20px;">
+                <h3>暫時總開支</h3>
+                <div style="display:flex; justify-content:space-around; margin-top:10px;">
+                    <div><span style="font-size:0.8rem; color:#aaa;">HKD</span><br><strong id="total-hkd" style="font-size:1.5rem; color:#4facfe;">0</strong></div>
+                    <div><span style="font-size:0.8rem; color:#aaa;">JPY</span><br><strong id="total-jpy" style="font-size:1.5rem; color:#fbc2eb;">0</strong></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📝 新增項目</h3>
+                <div class="currency-toggle" style="display:flex; gap:10px; margin-bottom:15px;">
+                    <button class="currency-btn active" onclick="setCurrency('JPY')" id="btn-jpy" style="flex:1; padding:10px; border:1px solid #1e3c72; border-radius:8px; background:#1e3c72; color:white;">JPY ¥</button>
+                    <button class="currency-btn" onclick="setCurrency('HKD')" id="btn-hkd" style="flex:1; padding:10px; border:1px solid #1e3c72; border-radius:8px; background:white; color:#1e3c72;">HKD $</button>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">項目名稱</label>
+                    <input type="text" id="item-name" class="form-control" placeholder="e.g. 天神宵夜" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">金額</label>
+                    <input type="number" id="item-amount" class="form-control" placeholder="0" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">邊個比錢? (Payer)</label>
+                    <div class="member-select-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+                        <div class="member-option" onclick="selectPayer(this, 'Yo姐')">Yo姐</div>
+                        <div class="member-option" onclick="selectPayer(this, 'YWS')">YWS</div>
+                        <div class="member-option" onclick="selectPayer(this, 'Tony')">Tony</div>
+                        <div class="member-option" onclick="selectPayer(this, 'Yela')">Yela</div>
+                        <div class="member-option" onclick="selectPayer(this, 'Carol')">Carol</div>
+                        <div class="member-option" onclick="selectPayer(this, 'I人')">I人</div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">幫邊個比? (夾錢)</label>
+                    <div class="member-select-grid" id="split-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+                        <div class="member-option selected" onclick="toggleSplit(this)">Yo姐</div>
+                        <div class="member-option selected" onclick="toggleSplit(this)">YWS</div>
+                        <div class="member-option selected" onclick="toggleSplit(this)">Tony</div>
+                        <div class="member-option selected" onclick="toggleSplit(this)">Yela</div>
+                        <div class="member-option selected" onclick="toggleSplit(this)">Carol</div>
+                        <div class="member-option selected" onclick="toggleSplit(this)">I人</div>
+                    </div>
+                </div>
+
+                <button class="btn-add-expense" onclick="addExpense()" style="width:100%; background:#2e7d32; color:white; padding:12px; border:none; border-radius:8px; font-weight:bold;">新增項目</button>
+            </div>
+
+            <div class="card">
+                <h3>📜 記帳列表</h3>
+                <div id="expense-list"></div>
+                <button onclick="clearAllExpenses()" style="width:100%; background:#c62828; color:white; padding:10px; border:none; border-radius:8px; margin-top:15px;">⚠️ 清空所有記錄</button>
+            </div>
+
+            <div class="card" style="opacity:0.8;">
+                <h3>💸 必要費用 (已付參考)</h3>
+                <table class="accounts-table">
+                    <tr><th>項目</th><th>金額</th><th>墊支</th></tr>
+                    <tr><td>租車 (Voxy)</td><td style="color:#2e7d32; font-weight:bold;">HKD 1,070</td><td>Tony</td></tr>
+                    <tr><td>由布院酒店</td><td style="color:#1e3c72; font-weight:bold;">¥103,000</td><td>Yo姐</td></tr>
+                    <tr><td>滑雪課程</td><td style="color:#c62828;">¥24,000 (未)</td><td>-</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section id="bookings" class="hidden-section">
+            <div class="section-title"><h2>📑 預訂號碼</h2></div>
+            <div class="booking-group"><h3>✈️ 機票</h3>
+                <div class="booking-item"><div class="label">Yo姐 (CX)</div><div class="code">FXL72G</div></div>
+                <div class="booking-item"><div class="label">YWS (Peach)</div><div class="code">CZ8YU3</div></div>
+            </div>
+            <div class="booking-group"><h3>🏨 酒店</h3>
+                <div class="booking-item"><div class="label">1/14 天神</div><div class="code">PIN: 9276</div></div>
+                <div class="booking-item"><div class="label">1/15 由布院</div><div class="code">8QAXAK26</div></div>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="bottom-nav">
+        <button onclick="showSection('home')" class="nav-btn active"><i class="fas fa-home"></i><br>總覽</button>
+        <button onclick="showSection('flights')" class="nav-btn"><i class="fas fa-plane"></i><br>機票</button>
+        <button onclick="showSection('itinerary')" class="nav-btn"><i class="fas fa-list-ul"></i><br>行程</button>
+        <button onclick="showSection('ski')" class="nav-btn"><i class="fas fa-snowflake"></i><br>攻略</button>
+        <button onclick="showSection('packing')" class="nav-btn"><i class="fas fa-suitcase"></i><br>行李</button>
+        <button onclick="showSection('accounts')" class="nav-btn"><i class="fas fa-calculator"></i><br>數簿</button>
+        <button onclick="showSection('bookings')" class="nav-btn"><i class="fas fa-ticket-alt"></i><br>號碼</button>
+    </nav>
+
+    <script>
+        // === 1. Navigation ===
+        function showSection(sectionId) {
+            document.querySelectorAll('main section').forEach(s => {
+                s.classList.remove('active-section');
+                s.classList.add('hidden-section');
+            });
+            document.getElementById(sectionId).classList.remove('hidden-section');
+            document.getElementById(sectionId).classList.add('active-section');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(sectionId));
+            if(btn) btn.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // === 2. Snow Effect ===
+        function createSnowflake() {
+            const s = document.createElement('div');
+            s.classList.add('snowflake');
+            s.innerHTML = Math.random()>0.5 ? '❄' : '❅';
+            s.style.left = Math.random()*100 + 'vw';
+            s.style.animationDuration = Math.random()*3+2+'s';
+            s.style.opacity = Math.random();
+            s.style.fontSize = Math.random()*10+10+'px';
+            document.body.appendChild(s);
+            setTimeout(()=>s.remove(),5000);
+        }
+        setInterval(createSnowflake, 200);
+
+        // === 3. Expense Tracker Logic ===
+        let currentCurrency = 'JPY';
+        let selectedPayer = '';
+        let expenses = JSON.parse(localStorage.getItem('fukuoka_expenses')) || [];
+
+        function setCurrency(curr) {
+            currentCurrency = curr;
+            document.getElementById('btn-jpy').className = curr === 'JPY' ? 'currency-btn active' : 'currency-btn';
+            document.getElementById('btn-hkd').className = curr === 'HKD' ? 'currency-btn active' : 'currency-btn';
+        }
+
+        function selectPayer(el, name) {
+            document.querySelectorAll('.input-group .member-option').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedPayer = name;
+        }
+
+        function toggleSplit(el) {
+            el.classList.toggle('selected');
+        }
+
+        function addExpense() {
+            const name = document.getElementById('item-name').value;
+            const amount = parseFloat(document.getElementById('item-amount').value);
+            
+            // Get involved members
+            const involved = [];
+            document.querySelectorAll('#split-grid .member-option.selected').forEach(el => involved.push(el.innerText));
+
+            if (!name || !amount || !selectedPayer || involved.length === 0) {
+                alert("請填寫所有資料 (項目、金額、付款人、夾錢人)！");
+                return;
+            }
+
+            const expense = {
+                id: Date.now(),
+                name,
+                amount,
+                currency: currentCurrency,
+                payer: selectedPayer,
+                involved: involved
+            };
+
+            expenses.push(expense);
+            saveAndRender();
+            
+            // Clear inputs
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-amount').value = '';
+        }
+
+        function deleteExpense(id) {
+            if(confirm("確定刪除呢條數？")) {
+                expenses = expenses.filter(e => e.id !== id);
+                saveAndRender();
+            }
+        }
+
+        function clearAllExpenses() {
+            if(confirm("⚠️ 警告：確定清空所有記帳資料？不能復原！")) {
+                expenses = [];
+                saveAndRender();
+            }
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('fukuoka_expenses', JSON.stringify(expenses));
+            renderList();
+            calculateTotal();
+        }
+
+        function renderList() {
+            const list = document.getElementById('expense-list');
+            list.innerHTML = '';
+            
+            expenses.slice().reverse().forEach(e => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div class="history-info">
+                        <span class="history-title">${e.name}</span>
+                        <span class="history-meta">${e.payer} 比錢 ➔ 分比 ${e.involved.length}人</span>
+                    </div>
+                    <div class="history-amount">${e.currency} ${e.amount.toLocaleString()}</div>
+                    <button class="btn-delete" onclick="deleteExpense(${e.id})"><i class="fas fa-trash"></i></button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function calculateTotal() {
+            let totalHKD = 0;
+            let totalJPY = 0;
+            expenses.forEach(e => {
+                if (e.currency === 'HKD') totalHKD += e.amount;
+                if (e.currency === 'JPY') totalJPY += e.amount;
+            });
+            document.getElementById('total-hkd').innerText = totalHKD.toLocaleString();
+            document.getElementById('total-jpy').innerText = totalJPY.toLocaleString();
+        }
+
+        // Init
+        saveAndRender();
+
+    </script>
+</body>
+</html>
