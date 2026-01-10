@@ -35,37 +35,39 @@
             overflow-x: hidden;
         }
 
-        /* === 背景層 (Background Layer) === */
+        /* === 🔧 背景層 (Background Layer) - 固定修復版 === */
         #bg-layer {
             position: fixed;
+            /* 使用上下左右 0 來釘死背景，解決手機網址列伸縮導致的跳動 */
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            right: 0;
+            bottom: 0;
             z-index: -1;
             
-            /* ⚠️ 強烈建議：將你的圖片改名為 "bg.jpg" (全小寫)，這樣最穩陣！ */
+            /* ⚠️ 請將圖片改名為 bg.jpg (全小寫) 以防萬一 */
             background-image: url('bg.jpg');
             
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             
-            /* === 極限透明調整 === */
-            /* 幾乎不加白 (0.05)，保留原圖色彩 */
+            /* === 極限透明調整 (5%) === */
+            /* 幾乎不加白，保留原圖色彩 */
             background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
             /* 輕微模糊 */
             filter: blur(1px);
             
+            /* 稍微放大防止手機邊緣穿崩 */
             transform: scale(1.02); 
         }
 
         /* === 卡片樣式 (超級透明版) === */
         .card {
             /* 55% 不透明，非常透 */
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.55);
             
             /* 磨砂效果 */
             backdrop-filter: blur(8px);
@@ -1768,11 +1770,11 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 新增：處理日文發音的 JS (使用 Google Query Parameters 格式) ===
-        // 這是目前最穩定的格式，能強制填入文字
+        // === 3. 新增：處理日文發音 (🔧 Android 修正版) ===
         function playAudio(text) {
             const encodedText = encodeURIComponent(text);
-            const url = `https://translate.google.com/?sl=ja&tl=zh-TW&text=${encodedText}&op=translate`;
+            // 改用 "/m" (行動版網頁)，這個參數 q=... 在所有手機瀏覽器上都支援
+            const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
             window.open(url, '_blank');
         }
 
@@ -1840,17 +1842,14 @@
         fetchRealTimeData();
 
         // === 5. 🎒 行李清單自動儲存 (Local Storage) ===
-        // 就算 F5 刷新，剔過的野都會留低！
         function initPackingList() {
             const checkboxes = document.querySelectorAll('#packing input[type="checkbox"]');
             checkboxes.forEach((box, index) => {
                 const storageKey = 'packing_chk_' + index;
-                // 1. 載入時 Check 狀態
                 const savedState = localStorage.getItem(storageKey);
                 if (savedState === 'true') {
                     box.checked = true;
                 }
-                // 2. 改變時 Save 狀態
                 box.addEventListener('change', function () {
                     localStorage.setItem(storageKey, this.checked);
                 });
