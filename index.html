@@ -29,40 +29,76 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f2f4f8;
+            /* 移除原本的背景色，讓它透明一點 */
+            background-color: #f2f4f8; 
             color: #333;
             padding-bottom: 90px;
             overflow-x: hidden;
         }
 
+        /* === 修改後的背景層 (解決跳動 + 柔化效果) === */
         #bg-layer {
-            position: fixed;
+            position: fixed; /* 關鍵：鎖定背景，防止滑動時縮放 */
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             z-index: -1;
-            background-image: url('background.jpg');
+            
+            /* 使用新圖片 */
+            background-image: url('PIC.jpeg');
             background-size: cover;
-            background-position: center top;
+            background-position: center;
             background-repeat: no-repeat;
+            
+            /* === 背景淡化魔法 === */
+            /* 疊加一層 60% 的白色，令圖片變淡 */
+            background-color: rgba(255, 255, 255, 0.6); 
+            background-blend-mode: overlay;
+            
+            /* 輕微模糊，讓文字更突出 */
             filter: blur(3px);
+            
+            /* 輕微放大防止模糊邊緣穿崩 */
+            transform: scale(1.02); 
         }
 
-        /* 新增：購物卡樣式 */
-        .shop-card {
-            border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+        /* === 修改後的卡片樣式 (磨砂玻璃) === */
+        .card {
+            /* 85% 不透明白色，營造通透感 */
+            background: rgba(255, 255, 255, 0.88);
+            
+            /* 磨砂濾鏡 (毛玻璃效果) */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            
+            /* 加深陰影，增加立體感 */
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            
+            position: relative;
+            overflow: hidden;
+            
+            /* 極幼白邊，增加精緻度 */
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        .shop-card h3 {
-            color: #7b1fa2;
-            border-bottom: 2px solid #e1bee7;
+        .card h3 {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05); /* 線條變淡 */
+            padding-bottom: 10px;
+            font-weight: 600;
         }
 
         /* === Header === */
         header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95) 0%, rgba(42, 82, 152, 0.95) 100%);
+            backdrop-filter: blur(5px);
             color: white;
             padding: 25px 15px;
             text-align: center;
@@ -149,6 +185,7 @@
         .section-title {
             text-align: center;
             margin: 10px 0 25px;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8); /* 增加文字白邊，更易閱讀 */
         }
 
         .section-title h2 {
@@ -158,30 +195,10 @@
         }
 
         .section-title p {
-            color: #666;
+            color: #444; /* 加深字體顏色 */
             font-size: 0.9rem;
             margin-top: 5px;
-        }
-
-        /* === Cards === */
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.02);
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         /* === V20 新增樣式 (實時記帳用) === */
@@ -193,7 +210,7 @@
 
         .stat-box {
             flex: 1;
-            background: #333;
+            background: rgba(51, 51, 51, 0.9); /* 稍微透明 */
             color: white;
             padding: 15px;
             border-radius: 12px;
@@ -276,7 +293,6 @@
         /* === Home Styles === */
         .intro-card {
             text-align: center;
-            background: white;
         }
 
         .intro-card h2 {
@@ -289,7 +305,7 @@
 
         .countdown-box {
             margin-top: 15px;
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.7); /* 半透明藍 */
             color: #1565c0;
             padding: 12px;
             border-radius: 12px;
@@ -299,7 +315,7 @@
 
         .vibes-box {
             margin-top: 15px;
-            background: #fff3e0;
+            background: rgba(255, 243, 224, 0.7); /* 半透明橙 */
             border: 2px dashed #ff9800;
             border-radius: 12px;
             padding: 15px;
@@ -446,17 +462,18 @@
         }
 
         .day-header {
-            background: #1e3c72;
+            background: rgba(30, 60, 114, 0.9);
             color: white;
             padding: 10px 15px;
             border-radius: 10px;
             font-weight: bold;
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         .timeline {
-            border-left: 3px solid #e0e0e0;
+            border-left: 3px solid rgba(255, 255, 255, 0.5); /* 時間線改為半透明白 */
             margin-left: 10px;
             padding-left: 25px;
         }
@@ -476,7 +493,7 @@
             background: white;
             border: 4px solid #1e3c72;
             border-radius: 50%;
-            box-shadow: 0 0 0 2px white;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
         }
 
         .event .time {
@@ -484,14 +501,16 @@
             color: #1e3c72;
             font-size: 0.95rem;
             margin-bottom: 6px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
         }
 
         .event .desc {
-            background: white;
+            background: rgba(255, 255, 255, 0.9); /* 內容框不透明度高一點，易讀 */
             padding: 12px 15px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid #eee;
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(5px);
         }
 
         .note {
@@ -504,6 +523,17 @@
         .highlight-box .desc {
             border-left: 4px solid #e91e63;
             background: #fff0f5;
+        }
+
+        /* 新增：購物卡樣式 */
+        .shop-card {
+            border-left: 5px solid #9c27b0;
+            background: rgba(243, 229, 245, 0.85); /* 半透明紫 */
+        }
+
+        .shop-card h3 {
+            color: #7b1fa2;
+            border-bottom: 2px solid #e1bee7;
         }
 
         .food-card {
@@ -556,7 +586,7 @@
 
         /* === Ski & Packing === */
         .warning-card {
-            background: #fff5f5;
+            background: rgba(255, 245, 245, 0.85);
             border-left: 5px solid #c62828;
         }
 
@@ -567,7 +597,7 @@
 
         .outfit-card {
             border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+            background: rgba(243, 229, 245, 0.85);
         }
 
         .outfit-card h3 {
@@ -576,7 +606,7 @@
         }
 
         .tips-card-a {
-            background: #e8f5e9;
+            background: rgba(232, 245, 233, 0.85);
             border-left: 5px solid #2e7d32;
         }
 
@@ -586,7 +616,7 @@
         }
 
         .tips-card-b {
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.85);
             border-left: 5px solid #1565c0;
         }
 
@@ -596,7 +626,7 @@
         }
 
         .language-card {
-            background: #fff3e0;
+            background: rgba(255, 243, 224, 0.85);
             border-left: 5px solid #ef6c00;
         }
 
@@ -617,14 +647,15 @@
             border-radius: 10px;
             color: white;
             text-align: center;
+            backdrop-filter: blur(5px);
         }
 
         .weather-city {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.9), rgba(0, 242, 254, 0.9));
         }
 
         .weather-ski {
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.9), rgba(251, 194, 235, 0.9));
         }
 
         .weather-box h4 {
@@ -640,7 +671,7 @@
         .btn-jma {
             display: block;
             width: 100%;
-            background: white;
+            background: rgba(255,255,255,0.9);
             border: none;
             color: #1e3c72;
             text-align: center;
@@ -673,7 +704,7 @@
 
         .alert-card {
             border: 2px solid #c62828;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .checklist li {
@@ -681,7 +712,7 @@
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            border-bottom: 1px dashed #eee;
+            border-bottom: 1px dashed #bbb; /* 加深少少顏色 */
             padding-bottom: 8px;
         }
 
@@ -697,37 +728,37 @@
 
         .check-card[style*="2196f3"] {
             border-left: 5px solid #2196f3;
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.85);
         }
 
         .check-card[style*="e91e63"] {
             border-left: 5px solid #e91e63;
-            background: #fce4ec;
+            background: rgba(252, 228, 236, 0.85);
         }
 
         .check-card[style*="009688"] {
             border-left: 5px solid #009688;
-            background: #e0f2f1;
+            background: rgba(224, 242, 241, 0.85);
         }
 
         .check-card[style*="3f51b5"] {
             border-left: 5px solid #3f51b5;
-            background: #e8eaf6;
+            background: rgba(232, 234, 246, 0.85);
         }
 
         .check-card[style*="9c27b0"] {
             border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+            background: rgba(243, 229, 245, 0.85);
         }
 
         .check-card[style*="fbc02d"] {
             border-left: 5px solid #fbc02d;
-            background: #fff9c4;
+            background: rgba(255, 249, 196, 0.85);
         }
-
+        
         .check-card[style*="ff4081"] {
             border-left: 5px solid #ff4081;
-            background: #fff0f6;
+            background: rgba(255, 240, 246, 0.85);
         }
 
         /* === Accounts / Form === */
@@ -739,7 +770,7 @@
             overflow-x: hidden;
             border-radius: 12px;
             border: 1px solid #ddd;
-            background: #fff;
+            background: #fff; /* Form 保持實心白，否則會亂 */
         }
 
         .form-container iframe {
@@ -793,11 +824,12 @@
 
         .booking-group h3 {
             font-size: 1rem;
-            color: #888;
+            color: #555; /* 加深 */
             margin-bottom: 12px;
             padding-left: 5px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
         }
 
         .booking-item {
@@ -805,12 +837,12 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 12px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-            border: 1px solid #f0f0f0;
+            border: 1px solid rgba(255,255,255,0.5);
             transition: transform 0.1s;
         }
 
@@ -846,20 +878,24 @@
             word-break: break-all;
         }
 
-        /* === Bottom Nav === */
+        /* === Bottom Nav (Glass) === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            
+            /* 磨砂玻璃設定 */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            
             display: flex;
             justify-content: space-around;
             padding: 10px 0 15px;
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
             z-index: 999;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
         }
 
         .nav-btn {
