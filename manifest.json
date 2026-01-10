@@ -1,0 +1,21 @@
+{
+  "name": "福岡集合小組",
+  "short_name": "福岡之旅",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#1e3c72",
+  "theme_color": "#1e3c72",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
