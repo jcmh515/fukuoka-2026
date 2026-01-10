@@ -29,7 +29,6 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            /* 移除原本的背景色，讓它透明一點 */
             background-color: #f2f4f8; 
             color: #333;
             padding-bottom: 90px;
@@ -65,8 +64,8 @@
 
         /* === 修改後的卡片樣式 (磨砂玻璃) === */
         .card {
-            /* 85% 不透明白色，營造通透感 */
-            background: rgba(255, 255, 255, 0.65);
+            /* 70% 不透明白色，增加通透感 (你要求的調整) */
+            background: rgba(255, 255, 255, 0.7);
             
             /* 磨砂濾鏡 (毛玻璃效果) */
             backdrop-filter: blur(12px);
@@ -90,7 +89,7 @@
             font-size: 1.1rem;
             color: #444;
             margin-bottom: 15px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.05); /* 線條變淡 */
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
             padding-bottom: 10px;
             font-weight: 600;
         }
@@ -185,7 +184,7 @@
         .section-title {
             text-align: center;
             margin: 10px 0 25px;
-            text-shadow: 0 2px 10px rgba(255,255,255,0.8); /* 增加文字白邊，更易閱讀 */
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
         }
 
         .section-title h2 {
@@ -195,10 +194,35 @@
         }
 
         .section-title p {
-            color: #444; /* 加深字體顏色 */
+            color: #444;
             font-size: 0.9rem;
             margin-top: 5px;
             font-weight: 500;
+        }
+        
+        /* === 新增：發音按鈕樣式 === */
+        .btn-speak {
+            display: inline-block;
+            margin-left: 8px;
+            background-color: #e3f2fd;
+            color: #1e3c72;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+
+        .btn-speak:active {
+            transform: scale(0.9);
+            background-color: #bbdefb;
+        }
+
+        .btn-speak i {
+            font-size: 0.8rem;
         }
 
         /* === V20 新增樣式 (實時記帳用) === */
@@ -210,7 +234,7 @@
 
         .stat-box {
             flex: 1;
-            background: rgba(51, 51, 51, 0.9); /* 稍微透明 */
+            background: rgba(51, 51, 51, 0.9);
             color: white;
             padding: 15px;
             border-radius: 12px;
@@ -305,7 +329,7 @@
 
         .countdown-box {
             margin-top: 15px;
-            background: rgba(227, 242, 253, 0.7); /* 半透明藍 */
+            background: rgba(227, 242, 253, 0.7);
             color: #1565c0;
             padding: 12px;
             border-radius: 12px;
@@ -315,7 +339,7 @@
 
         .vibes-box {
             margin-top: 15px;
-            background: rgba(255, 243, 224, 0.7); /* 半透明橙 */
+            background: rgba(255, 243, 224, 0.7);
             border: 2px dashed #ff9800;
             border-radius: 12px;
             padding: 15px;
@@ -473,7 +497,7 @@
         }
 
         .timeline {
-            border-left: 3px solid rgba(255, 255, 255, 0.5); /* 時間線改為半透明白 */
+            border-left: 3px solid rgba(255, 255, 255, 0.5);
             margin-left: 10px;
             padding-left: 25px;
         }
@@ -505,7 +529,7 @@
         }
 
         .event .desc {
-            background: rgba(255, 255, 255, 0.9); /* 內容框不透明度高一點，易讀 */
+            background: rgba(255, 255, 255, 0.9); /* 內容框保持較高不透明度，易讀 */
             padding: 12px 15px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -525,10 +549,9 @@
             background: #fff0f5;
         }
 
-        /* 新增：購物卡樣式 */
         .shop-card {
             border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.85); /* 半透明紫 */
+            background: rgba(243, 229, 245, 0.85);
         }
 
         .shop-card h3 {
@@ -712,7 +735,7 @@
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            border-bottom: 1px dashed #bbb; /* 加深少少顏色 */
+            border-bottom: 1px dashed #bbb;
             padding-bottom: 8px;
         }
 
@@ -770,7 +793,7 @@
             overflow-x: hidden;
             border-radius: 12px;
             border: 1px solid #ddd;
-            background: #fff; /* Form 保持實心白，否則會亂 */
+            background: #fff;
         }
 
         .form-container iframe {
@@ -824,7 +847,7 @@
 
         .booking-group h3 {
             font-size: 1rem;
-            color: #555; /* 加深 */
+            color: #555;
             margin-bottom: 12px;
             padding-left: 5px;
             text-transform: uppercase;
@@ -885,8 +908,8 @@
             left: 0;
             width: 100%;
             
-            /* 磨砂玻璃設定 */
-            background: rgba(255, 255, 255, 0.85);
+            /* 70% 透明度 (你要求的調整) */
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             
@@ -1371,47 +1394,90 @@
                             連續做。<br>視線好重要，望住你想去嘅方向，個身自然會跟住轉。</span></li>
                 </ul>
             </div>
+
             <div class="card language-card">
-                <h3>🗣️ 教練會講咩？ (完整句子)</h3>
-                <p style="margin-bottom:10px; font-size:0.9rem;">教練通常會講呢啲指令：</p>
+                <h3>🗣️ 教練會講咩？ (點擊發音)</h3>
+                <p style="margin-bottom:10px; font-size:0.9rem;">教練講呢啲，禁個喇叭掣聽發音：</p>
                 <table style="width:100%; font-size:0.85rem; border-collapse: collapse;">
                     <tr style="border-bottom:2px solid #ffcc80;">
-                        <th style="text-align:left; padding:8px 5px;">教練講 (日文/英文)</th>
-                        <th style="text-align:left; padding:8px 5px;">你點做 (意思)</th>
+                        <th style="text-align:left; padding:8px 5px;">教練講 (日文)</th>
+                        <th style="text-align:left; padding:8px 5px;">意思</th>
                     </tr>
+                    
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>膝を曲げて (Hiza o magete)</strong><br><em
-                                style="color:#888;">"Bend your knees"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>膝を曲げて</strong><br>
+                            <em style="color:#888;">(Hiza o magete)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=膝を曲げて&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">曲膝頭！<br>(重心放低)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>前を見て (Mae o mite)</strong><br><em style="color:#888;">"Look
-                                forward"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>前を見て</strong><br>
+                            <em style="color:#888;">(Mae o mite)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=前を見て&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">望前面！<br>(唔好望地)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>かかとに重心 (Kakato ni juushin)</strong><br><em
-                                style="color:#888;">"Weight on heels"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>かかとに重心</strong><br>
+                            <em style="color:#888;">(Kakato ni juushin)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=かかとに重心&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">用腳踭用力<br>(Heel side)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>ゆっくり立って (Yukkuri tatte)</strong><br><em
-                                style="color:#888;">"Stand up slowly"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>ゆっくり立って</strong><br>
+                            <em style="color:#888;">(Yukkuri tatte)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=ゆっくり立って&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">慢慢起身</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>止まって！ (Tomatte!)</strong><br><em
-                                style="color:#888;">"Stop!"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>止まって！</strong><br>
+                            <em style="color:#888;">(Tomatte!)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=止まって&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">即刻停！<br>(坐低或剎車)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>大丈夫ですか？ (Daijoubu desu ka?)</strong><br><em
-                                style="color:#888;">"Are you okay?"</em></td>
-                        <td style="padding:8px 5px;">有無事？<br>(無事就比 OK 手勢)</td>
+                        <td style="padding:8px 5px;">
+                            <strong>大丈夫ですか？</strong><br>
+                            <em style="color:#888;">(Daijoubu desu ka?)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=大丈夫ですか&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
+                        <td style="padding:8px 5px;">有無事？<br>(無事比OK手勢)</td>
                     </tr>
+
                     <tr>
-                        <td style="padding:8px 5px;"><strong>一人ずつ (Hitori zutsu)</strong><br><em
-                                style="color:#888;">"One by one"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>一人ずつ</strong><br>
+                            <em style="color:#888;">(Hitori zutsu)</em>
+                            <a href="https://translate.google.com/?sl=ja&text=一人ずつ&op=translate" target="_blank" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">一個個嚟<br>(唔好爭先)</td>
                     </tr>
                 </table>
