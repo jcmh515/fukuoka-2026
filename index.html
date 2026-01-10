@@ -29,7 +29,6 @@
 
         html, body {
             width: 100%;
-            /* 移除 height: 100% 以允許自然捲動，避免鎖死內容 */
             overflow-x: hidden;
         }
 
@@ -41,47 +40,60 @@
             padding-bottom: 90px;
         }
 
-        /* === 🔧 背景層 (顯示更多圖片 + 50% 透明版) === */
+        /* === 🔧 背景層 (固定 + 顯示更多圖片 + 50%透明) === */
         #bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             
-            /* 使用 100lvh (Largest Viewport Height) 鎖定最大高度 */
-            /* 這樣既解決了滑動跳動，又唔會好似 120vh 咁強制放大張圖 */
-            height: 100vh;       /* 舊手機 Fallback */
-            height: 100lvh;      /* 新手機完美 Fix */
+            /* 使用 100lvh 鎖定最大高度，解決滑動跳動 */
+            height: 100vh;
+            height: 100lvh;
             
             z-index: -999;
             
-            /* ⚠️ 圖片設定 */
+            /* 圖片設定 */
             background-image: url('bg.jpg'); 
             
-            /* 核心修改：cover 會裁切，但現在高度正常返，會睇到多啲野 */
-            /* 如果想睇到成個鳥居頂，建議用 'center top' 對齊上方 */
+            /* center top: 確保睇到上方天空同鳥居頂 */
             background-size: cover;
-            background-position: center top; 
+            background-position: center top;
             background-repeat: no-repeat;
             
-            /* 雙重保險 */
             background-attachment: fixed; 
 
-            /* === 50% 透明白色濾鏡 === */
-            /* 0.5 代表 50% 不透明度 (即係半透明) */
+            /* 50% 白色透明濾鏡 */
             background-color: rgba(255, 255, 255, 0.5); 
             background-blend-mode: overlay;
             
-            /* 移除模糊，令背景清楚返 */
+            /* 移除模糊，移除放大，睇得清楚D */
             filter: none;
-            
-            /* 移除放大效果，顯示更多內容 */
             transform: none;
             
             pointer-events: none;
         }
 
-        /* === 卡片樣式 (透明磨砂) === */
+        /* === ✨ 開場動畫設定 (新增部分) === */
+        @keyframes startupFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(15px); /* 輕微由下升上 */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 將動畫套用到 Header, Main, Nav */
+        header, main, .bottom-nav {
+            opacity: 0; /* 一開始隱藏 */
+            animation: startupFadeIn 0.8s ease-out forwards;
+            animation-delay: 1.0s; /* ⏳ 等待 1 秒才開始顯示！ */
+        }
+
+        /* === 卡片樣式 === */
         .card {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(8px);
@@ -169,7 +181,7 @@
             padding: 20px 15px;
             max-width: 600px;
             margin: 0 auto;
-            position: relative; /* 確保內容在背景之上 */
+            position: relative;
             z-index: 1;
         }
 
@@ -177,21 +189,10 @@
             display: none;
         }
 
+        /* 這裡原本有 fadeIn 動畫，但為了配合開場動畫，我們稍微簡化它，避免衝突 */
         .active-section {
             display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            /* 只需要 display block，透明度由 main 統一控制開場 */
         }
 
         .section-title {
@@ -213,7 +214,7 @@
             font-weight: 600;
         }
         
-        /* === 發音按鈕樣式 === */
+        /* === 發音按鈕 === */
         .btn-speak {
             display: inline-block;
             margin-left: 8px;
