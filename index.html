@@ -35,40 +35,56 @@
             overflow-x: hidden;
         }
 
-        /* === 🔧 背景層 (Background Layer) - 固定修復版 === */
+        /* === 🔧 背景層 (固定修復版) === */
         #bg-layer {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100vw;
+            
+            /* 核心修改：使用 100lvh (Largest Viewport Height) */
+            /* 這會強制背景永遠保持在「沒有網址列」時的高度，防止滑動時跳動 */
+            height: 100vh;       /* 舊手機 Fallback */
+            height: 100lvh;      /* 新手機 Fix */
+            
             z-index: -1;
             
-            /* ⚠️ 請確保圖片檔名為 bg.jpg */
+            /* ⚠️ 請確保你的圖片檔名為 bg.jpg (全小寫) */
             background-image: url('bg.jpg');
             
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             
-            /* === 極限透明調整 (5%) === */
+            /* 極限透明白色濾鏡 (5%) */
             background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
             filter: blur(1px);
-            transform: scale(1.02); 
+            
+            /* 禁止過渡動畫，防止瀏覽器嘗試補間 */
+            transition: none;
+            
+            /* 輕微放大防止邊緣穿崩 */
+            transform: scale(1.01);
         }
 
-        /* === 卡片樣式 (超級透明版) === */
+        /* === 卡片樣式 (透明磨砂) === */
         .card {
             /* 55% 不透明 */
             background: rgba(255, 255, 255, 0.55);
+            
+            /* 磨砂效果 */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
+            
+            /* 陰影 */
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -210,12 +226,6 @@
         .btn-speak:active {
             transform: scale(0.9);
             background-color: #bbdefb;
-        }
-
-        /* 播放中狀態 */
-        .speaking {
-            background-color: #ffeb3b !important;
-            transform: scale(1.1);
         }
 
         .btn-speak i {
