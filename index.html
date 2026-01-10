@@ -44,20 +44,19 @@
             height: 100vh;
             z-index: -1;
             
-            /* ⚠️ 重要：請確保你的圖片檔名完全一樣 (包括大小寫) */
-            /* 如果你的圖是 pic.jpeg，請自行改下面這行 */
-            background-image: url('PIC.jpeg');
+            /* ⚠️ 強烈建議：將你的圖片改名為 "bg.jpg" (全小寫)，這樣最穩陣！ */
+            background-image: url('bg.jpg');
             
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             
             /* === 極限透明調整 === */
-            /* 幾乎不加白，只加 5% 白色，保留原圖色彩 */
+            /* 幾乎不加白 (0.05)，保留原圖色彩 */
             background-color: rgba(255, 255, 255, 0.05); 
             background-blend-mode: overlay;
             
-            /* 輕微模糊，讓文字好讀一點點，如果想看清圖可改 0px */
+            /* 輕微模糊 */
             filter: blur(1px);
             
             transform: scale(1.02); 
@@ -66,7 +65,7 @@
         /* === 卡片樣式 (超級透明版) === */
         .card {
             /* 55% 不透明，非常透 */
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.55);
             
             /* 磨砂效果 */
             backdrop-filter: blur(8px);
@@ -214,7 +213,7 @@
             text-align: center;
             border-radius: 50%;
             text-decoration: none;
-            cursor: pointer; /* 加上手指游標 */
+            cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: transform 0.1s;
         }
@@ -1769,11 +1768,11 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 新增：處理日文發音的 JS (解決 URL 編碼問題) ===
+        // === 3. 新增：處理日文發音的 JS (使用 Google Query Parameters 格式) ===
+        // 這是目前最穩定的格式，能強制填入文字
         function playAudio(text) {
-            // 使用 encodeURIComponent 將日文正確編碼
-            // 並使用 hash (#) 格式傳送，這對手機 APP 來說最穩定
-            const url = "https://translate.google.com/#ja/zh-TW/" + encodeURIComponent(text);
+            const encodedText = encodeURIComponent(text);
+            const url = `https://translate.google.com/?sl=ja&tl=zh-TW&text=${encodedText}&op=translate`;
             window.open(url, '_blank');
         }
 
