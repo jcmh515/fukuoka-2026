@@ -29,7 +29,7 @@
 
         html, body {
             width: 100%;
-            height: 100%;
+            /* 移除 height: 100% 以允許自然捲動，避免鎖死內容 */
             overflow-x: hidden;
         }
 
@@ -37,28 +37,28 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f2f4f8; 
             color: #333;
-            /* 這是防止背景捲動的關鍵：讓 Body 自己負責捲動，而不是瀏覽器視窗 */
             position: relative;
             padding-bottom: 90px;
         }
 
-        /* === 🔧 背景層 (絕對鎖死版) === */
+        /* === 🔧 背景層 (Oversize 鎖死版) === */
         #bg-layer {
-            position: fixed; /* 固定定位：永遠釘死在視窗 */
-            top: 0;
+            position: fixed;
+            /* 讓背景比螢幕高 20%，並向上偏移 10%，確保上下都有緩衝區 */
+            /* 這樣無論底部工具列如何伸縮，都不會露出背景邊緣 */
+            top: -10vh;
             left: 0;
             width: 100vw;
-            height: 100vh;     /* 舊瀏覽器相容 */
-            height: 100lvh;    /* 新手機：忽略網址列伸縮，鎖定最大高度 */
-            z-index: -999;     /* 確保永遠在最底層 */
+            height: 120vh; 
+            z-index: -999;
             
-            /* ⚠️ 圖片設定 */
+            /* ⚠️ 圖片設定 (請確保檔名為 bg.jpg) */
             background-image: url('bg.jpg'); 
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             
-            /* 這一行係雙重保險，令背景圖唔會跟住碌 */
+            /* 雙重保險：部分瀏覽器需要這個來鎖定背景 */
             background-attachment: fixed; 
 
             /* === 極限透明濾鏡 === */
@@ -67,11 +67,11 @@
             
             filter: blur(1px);
             
-            /* 輕微放大防止邊緣穿崩 */
-            transform: scale(1.02);
-            
-            /* 禁止任何指針事件，防止誤觸背景 */
+            /* 禁止指針事件 */
             pointer-events: none;
+            
+            /* 確保在 iOS 上也能運作良好 */
+            -webkit-transform: translateZ(0);
         }
 
         /* === 卡片樣式 (透明磨砂) === */
