@@ -906,6 +906,20 @@
         .nav-btn-link:hover {
             background: #45a049;
         }
+
+        /* 原檔缺失的語音按鈕樣式 */
+        .btn-speak {
+            display: inline-block;
+            margin-left: 8px;
+            background-color: #e3f2fd;
+            color: #1e3c72;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -1344,39 +1358,19 @@
                         <th style="text-align:left; padding:8px 5px;">你點做 (意思)</th>
                     </tr>
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>膝を曲げて (Hiza o magete)</strong><br><em
+                        <td style="padding:8px 5px;"><strong>膝を曲げて (Hiza o magete)</strong> <a onclick="playAudio('膝を曲げて')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em
                                 style="color:#888;">"Bend your knees"</em></td>
                         <td style="padding:8px 5px;">曲膝頭！<br>(重心放低)</td>
                     </tr>
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>前を見て (Mae o mite)</strong><br><em style="color:#888;">"Look
+                        <td style="padding:8px 5px;"><strong>前を見て (Mae o mite)</strong> <a onclick="playAudio('前を見て')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em style="color:#888;">"Look
                                 forward"</em></td>
                         <td style="padding:8px 5px;">望前面！<br>(唔好望地)</td>
                     </tr>
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>かかとに重心 (Kakato ni juushin)</strong><br><em
-                                style="color:#888;">"Weight on heels"</em></td>
-                        <td style="padding:8px 5px;">用腳踭用力<br>(Heel side)</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>ゆっくり立って (Yukkuri tatte)</strong><br><em
-                                style="color:#888;">"Stand up slowly"</em></td>
-                        <td style="padding:8px 5px;">慢慢起身</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>止まって！ (Tomatte!)</strong><br><em
+                        <td style="padding:8px 5px;"><strong>止まって！ (Tomatte!)</strong> <a onclick="playAudio('止まって')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em
                                 style="color:#888;">"Stop!"</em></td>
                         <td style="padding:8px 5px;">即刻停！<br>(坐低或剎車)</td>
-                    </tr>
-                    <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>大丈夫ですか？ (Daijoubu desu ka?)</strong><br><em
-                                style="color:#888;">"Are you okay?"</em></td>
-                        <td style="padding:8px 5px;">有無事？<br>(無事就比 OK 手勢)</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px 5px;"><strong>一人ずつ (Hitori zutsu)</strong><br><em
-                                style="color:#888;">"One by one"</em></td>
-                        <td style="padding:8px 5px;">一個個嚟<br>(唔好爭先)</td>
                     </tr>
                 </table>
             </div>
@@ -1486,32 +1480,19 @@
             </div>
 
             <div class="card" id="settlement-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3>⚖️ 每人應付/應收結餘</h3>
-                </div>
-                <p style="font-size:0.75rem; color:#888; margin-bottom:10px;">
-                    已採用最新匯率：100 JPY = 4.92 HKD
-                </p>
+                <h3>⚖️ 每人應付/應收結餘</h3>
+                <p style="font-size:0.75rem; color:#888; margin-bottom:10px;">已採用最新匯率：100 JPY = 4.92 HKD </p>
                 <div style="overflow-x: auto;">
-                    <table class="accounts-table" id="settlement-table">
+                    <table class="accounts-table">
                         <thead>
-                            <tr>
-                                <th style="width:30%">成員</th>
-                                <th style="text-align:right;">HKD 差額</th>
-                                <th style="text-align:right;">JPY 差額</th>
-                            </tr>
+                            <tr><th>成員</th><th style="text-align:right;">HKD 差額</th><th style="text-align:right;">JPY 差額</th></tr>
                         </thead>
-                        <tbody id="settlement-list">
-                            </tbody>
+                        <tbody id="settlement-list"></tbody>
                     </table>
                 </div>
-                <div id="transfer-suggestions-box"
-                    style="margin-top: 25px; border-top: 2px dashed #ddd; padding-top: 15px;">
-                    <h4 style="color: #1e3c72; margin-bottom: 12px;">
-                        <i class="fas fa-hand-holding-usd"></i> 最終找數方案 (已折算港幣)
-                    </h4>
-                    <ul id="suggestion-list" style="list-style: none; padding: 0;">
-                        </ul>
+                <div id="transfer-suggestions-box" style="margin-top: 25px; border-top: 2px dashed #ddd; padding-top: 15px;">
+                    <h4 style="color: #1e3c72; margin-bottom: 12px;"><i class="fas fa-hand-holding-usd"></i> 最終找數方案 (已折算港幣)</h4>
+                    <ul id="suggestion-list" style="list-style: none; padding: 0;"></ul>
                 </div>
             </div>
 
@@ -1693,9 +1674,20 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 數簿連線邏輯 ===
+        // === 3. 🔧 處理日文發音 ===
+        function playAudio(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP'; 
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // === 4. 數簿連線與找數邏輯 ===
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
-        const JPY_TO_HKD = 0.0492; // 固定匯率 
+        const JPY_TO_HKD = 0.0492; // 100 JPY = 4.92 HKD
         let isFetching = false;
 
         async function fetchRealTimeData() {
@@ -1754,7 +1746,7 @@
                 list.appendChild(li);
             });
 
-            // 執行結算功能
+            // 觸發分帳計算 
             calculateSettlement(data);
         }
 
@@ -1766,51 +1758,30 @@
             data.forEach(row => {
                 const amount = parseFloat(row.amount) || 0;
                 const currency = row.currency;
-                const payer = row.payer; // 墊支人 
-
+                const payer = row.payer;
                 let involved = [];
-                // 判定受益人 
                 if (!row.beneficiaries || row.beneficiaries.trim() === '全員' || row.beneficiaries.trim() === '') {
                     involved = [...members];
                 } else {
                     involved = row.beneficiaries.split(/[,，\s]+/).filter(n => members.includes(n.trim())).map(n => n.trim());
                 }
-
                 if (involved.length > 0) {
                     const perPerson = amount / involved.length;
-                    involved.forEach(m => {
-                        balances[m][currency] += perPerson;
-                    });
-                    if (balances[payer]) {
-                        balances[payer][currency] -= amount;
-                    }
+                    involved.forEach(m => { balances[m][currency] += perPerson; });
+                    if (balances[payer]) { balances[payer][currency] -= amount; }
                 }
             });
 
             const tbody = document.getElementById('settlement-list');
             tbody.innerHTML = '';
-            let summaryForAlgorithm = [];
-
+            let summary = [];
             members.forEach(m => {
-                const h = balances[m].HKD;
-                const j = balances[m].JPY;
-                const totalInHkd = h + (j * JPY_TO_HKD);
-                summaryForAlgorithm.push({ name: m, balance: totalInHkd });
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td><strong>${m}</strong></td>
-                        <td style="text-align:right; font-weight:bold; color: ${h > 0 ? '#c62828' : '#2e7d32'}">
-                            ${h > 0 ? '+' : ''}${h.toFixed(1)}
-                        </td>
-                        <td style="text-align:right; font-weight:bold; color: ${j > 0 ? '#c62828' : '#2e7d32'}">
-                            ${j > 0 ? '+' : ''}${Math.round(j)}
-                        </td>
-                    </tr>
-                `;
+                const h = balances[m].HKD, j = balances[m].JPY;
+                const totalHkd = h + (j * JPY_TO_HKD);
+                summary.push({ name: m, balance: totalHkd });
+                tbody.innerHTML += `<tr><td><strong>${m}</strong></td><td style="text-align:right; font-weight:bold; color: ${h > 0 ? '#c62828' : '#2e7d32'}">${h > 0 ? '+' : ''}${h.toFixed(1)}</td><td style="text-align:right; font-weight:bold; color: ${j > 0 ? '#c62828' : '#2e7d32'}">${j > 0 ? '+' : ''}${Math.round(j)}</td></tr>`;
             });
-
-            generateSuggestions(summaryForAlgorithm);
+            generateSuggestions(summary);
         }
 
         function generateSuggestions(summary) {
@@ -1818,43 +1789,27 @@
             list.innerHTML = '';
             let debtors = summary.filter(x => x.balance > 0.5).sort((a, b) => b.balance - a.balance);
             let creditors = summary.filter(x => x.balance < -0.5).sort((a, b) => a.balance - b.balance);
-
-            if (debtors.length === 0) {
-                list.innerHTML = '<li style="color: #4caf50; text-align:center; padding:10px;">✅ 帳目已平，無需轉帳。</li>';
-                return;
-            }
-
+            if (debtors.length === 0) { list.innerHTML = '<li style="text-align:center;">✅ 帳目已平</li>'; return; }
             let i = 0, j = 0;
             while (i < debtors.length && j < creditors.length) {
                 let payAmount = Math.min(debtors[i].balance, Math.abs(creditors[j].balance));
-                list.innerHTML += `
-                    <li style="margin-bottom:8px; padding:12px; background:#f8f9fa; border-radius:10px; border-left:4px solid #1e3c72; font-size:0.95rem;">
-                        💸 <strong>${debtors[i].name}</strong> ➔ 找數給 <strong>${creditors[j].name}</strong><br>
-                        <span style="color:#d32f2f; font-weight:900; font-size:1.1rem; margin-left:25px;">$${payAmount.toFixed(1)} HKD</span>
-                    </li>
-                `;
-                debtors[i].balance -= payAmount;
-                creditors[j].balance += payAmount;
-                if (debtors[i].balance < 0.5) i++;
-                if (Math.abs(creditors[j].balance) < 0.5) j++;
+                list.innerHTML += `<li style="margin-bottom:8px; padding:12px; background:#f8f9fa; border-radius:10px; border-left:4px solid #1e3c72; font-size:0.95rem;">💸 <strong>${debtors[i].name}</strong> ➔ 找數給 <strong>${creditors[j].name}</strong><br><span style="color:#d32f2f; font-weight:900; font-size:1.1rem; margin-left:25px;">$${payAmount.toFixed(1)} HKD</span></li>`;
+                debtors[i].balance -= payAmount; creditors[j].balance += payAmount;
+                if (debtors[i].balance < 0.5) i++; if (Math.abs(creditors[j].balance) < 0.5) j++;
             }
         }
 
         setInterval(fetchRealTimeData, 4000);
         fetchRealTimeData();
 
-        // === 4. 🎒 行李清單自動儲存 (Local Storage) ===
+        // === 5. 🎒 行李清單自動儲存 ===
         function initPackingList() {
             const checkboxes = document.querySelectorAll('#packing input[type="checkbox"]');
             checkboxes.forEach((box, index) => {
                 const storageKey = 'packing_chk_' + index;
                 const savedState = localStorage.getItem(storageKey);
-                if (savedState === 'true') {
-                    box.checked = true;
-                }
-                box.addEventListener('change', function () {
-                    localStorage.setItem(storageKey, this.checked);
-                });
+                if (savedState === 'true') { box.checked = true; }
+                box.addEventListener('change', function () { localStorage.setItem(storageKey, this.checked); });
             });
         }
         initPackingList();
