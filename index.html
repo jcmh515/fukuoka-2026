@@ -1619,6 +1619,19 @@
                 <ul class="live-list" id="transaction-list"></ul>
             </div>
 
+            <div class="card" style="border-left: 5px solid #f44336; background: rgba(255, 235, 238, 0.7);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h3 style="color:#d32f2f; border-bottom: 2px solid #ffcdd2; padding-bottom: 10px;">🧮 結算建議 (HKD)</h3>
+        <span style="font-size:0.7rem; color:#666;">匯率: 100 JPY = 4.92 HKD</span>
+    </div>
+    <div id="settlement-loading" class="spinner"><i class="fas fa-sync fa-spin"></i> 計算中...</div>
+    <ul class="live-list" id="settlement-list">
+        </ul>
+    <p style="font-size: 0.75rem; color: #888; margin-top: 10px; text-align: center;">
+        *此計算已將 JPY 統一換算為 HKD 進行抵消。
+    </p>
+</div>
+
             <div class="card">
                 <h3>💸 已知/預算開支 (Reference)</h3>
                 <p style="font-size:0.8rem; color:#666; margin-bottom:15px;">以下係固定數，食飯買野另外計。</p>
@@ -1821,40 +1834,110 @@
             }
         }
 
-        function updateUI(data) {
-            const list = document.getElementById('transaction-list');
-            const totalJpyEl = document.getElementById('total-jpy');
-            const totalHkdEl = document.getElementById('total-hkd');
+function updateUI(data) {
+    const list = document.getElementById('transaction-list');
+    const totalJpyEl = document.getElementById('total-jpy');
+    const totalHkdEl = document.getElementById('total-hkd');
+    const settlementList = document.getElementById('settlement-list');
+    const settlementLoading = document.getElementById('settlement-loading');
 
-            let sumJpy = 0;
-            let sumHkd = 0;
+    const JPY_RATE = 0.0492; // 1 JPY = 0.0492 HKD
+    const members = ['YWS', 'Yo姐', 'Tony', 'Yela', 'Carol', 'I人'];
+    let balances = {}; // 記錄每個人應收(+)或應付(-)的總額
+    members.forEach(m => balances[m] = 0);
 
-            data.forEach(row => {
-                let amt = parseFloat(row.amount) || 0;
-                if (row.currency === 'JPY') sumJpy += amt;
-                if (row.currency === 'HKD') sumHkd += amt;
-            });
+    let sumJpy = 0;
+    let sumHkd = 0;
 
-            totalJpyEl.innerText = sumJpy.toLocaleString();
-            totalHkdEl.innerText = sumHkd.toLocaleString();
+    // 1. 處理交易記錄並計算個人餘額
+    data.forEach(row => {
+        let amt = parseFloat(row.amount) || 0;
+        let amtInHKD = (row.currency === 'JPY') ? amt * JPY_RATE : amt;
 
-            list.innerHTML = '';
-            const recent = data.slice(0, 5);
-            recent.forEach(row => {
-                const li = document.createElement('li');
-                li.className = 'live-item';
-                li.innerHTML = `
-                    <div class="live-info">
-                        <span class="live-title">${row.item}</span>
-                        <span class="live-meta">${row.payer} 先付 • ${row.beneficiaries || '全員'}</span>
-                    </div>
-                    <div class="live-amt">
-                        ${row.currency} ${parseFloat(row.amount).toLocaleString()}
-                    </div>
-                `;
-                list.appendChild(li);
+        if (row.currency === 'JPY') sumJpy += amt;
+        if (row.currency === 'HKD') sumHkd += amt;
+
+        // 判斷參與者
+        let involved = [];
+        if (!row.beneficiaries || row.beneficiaries.trim() === '全員' || row.beneficiaries.trim() === '') {
+            involved = [...members];
+        } else {
+            involved = row.beneficiaries.split(/[、, ]+/).filter(name => members.includes(name));
+        }
+
+        if (involved.length > 0) {
+            let share = amtInHKD / involved.length;
+            // 付款人賺回別人的份額
+            balances[row.payer] += amtInHKD;
+            // 每位參與者欠下份額
+            involved.forEach(m => {
+                balances[m] -= share;
             });
         }
+    });
+
+    // 更新總開支顯示
+    totalJpyEl.innerText = sumJpy.toLocaleString();
+    totalHkdEl.innerText = sumHkd.toLocaleString();
+
+    // 更新交易列表 (原本的功能)
+    list.innerHTML = '';
+    data.slice(0, 5).forEach(row => {
+        const li = document.createElement('li');
+        li.className = 'live-item';
+        li.innerHTML = `
+            <div class="live-info">
+                <span class="live-title">${row.item}</span>
+                <span class="live-meta">${row.payer} 先付 • ${row.beneficiaries || '全員'}</span>
+            </div>
+            <div class="live-amt">${row.currency} ${parseFloat(row.amount).toLocaleString()}</div>
+        `;
+        list.appendChild(li);
+    });
+
+    // 2. 計算「邊個畀邊個」 (債務抵消)
+    settlementList.innerHTML = '';
+    settlementLoading.style.display = 'none';
+
+    let debtors = []; // 欠錢的人
+    let creditors = []; // 應收錢的人
+
+    for (let m in balances) {
+        if (balances[m] < -0.1) debtors.push({ name: m, amount: Math.abs(balances[m]) });
+        else if (balances[m] > 0.1) creditors.push({ name: m, amount: balances[m] });
+    }
+
+    // 簡單債務匹配算法
+    debtors.sort((a, b) => b.amount - a.amount);
+    creditors.sort((a, b) => b.amount - a.amount);
+
+    let i = 0, j = 0;
+    while (i < debtors.length && j < creditors.length) {
+        let payAmt = Math.min(debtors[i].amount, creditors[j].amount);
+        
+        const li = document.createElement('li');
+        li.className = 'live-item';
+        li.style.borderBottom = '1px dashed #ffcdd2';
+        li.innerHTML = `
+            <div class="live-info">
+                <span class="live-title"><i class="fas fa-arrow-right" style="color:#f44336;"></i> ${debtors[i].name} 👉 ${creditors[j].name}</span>
+                <span class="live-meta">轉帳金額</span>
+            </div>
+            <div class="live-amt" style="color:#d32f2f;">HKD ${payAmt.toFixed(1)}</div>
+        `;
+        settlementList.appendChild(li);
+
+        debtors[i].amount -= payAmt;
+        creditors[j].amount -= payAmt;
+
+        if (debtors[i].amount < 0.1) i++;
+        if (creditors[j].amount < 0.1) j++;
+    }
+
+    if (settlementList.innerHTML === '') {
+        settlementList.innerHTML = '<li class="spinner">目前數目分明，暫無須找數。</li>';
+    }
+}
         setInterval(fetchRealTimeData, 4000);
         fetchRealTimeData();
 
