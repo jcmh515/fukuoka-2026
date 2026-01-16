@@ -1601,31 +1601,6 @@
                 </div>
             </div>
 
-            <div class="card" style="border-left: 5px solid #009688;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3>⚖️ 夾錢結算機</h3>
-        <button onclick="calculateSettlement()" style="background:#009688; color:white; border:none; padding:5px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
-            <i class="fas fa-calculator"></i> 立即計算
-        </button>
-    </div>
-    <p style="font-size:0.8rem; color:#666; margin-bottom:10px;">
-        邏輯：<span style="color:#d32f2f; font-weight:bold;">紅色</span>代表要拎錢出黎，<span style="color:#2e7d32; font-weight:bold;">綠色</span>代表收錢返黎。
-    </p>
-    <div id="settlement-result" style="display:none; animation: startupFadeIn 0.5s;">
-        <table class="accounts-table">
-            <thead>
-                <tr>
-                    <th>成員</th>
-                    <th>HKD (港幣)</th>
-                    <th>JPY (日圓)</th>
-                </tr>
-            </thead>
-            <tbody id="settlement-table-body">
-                </tbody>
-        </table>
-    </div>
-</div>
-            
             <div style="text-align:center; margin-bottom:20px;">
                 <a href="https://docs.google.com/spreadsheets/d/1cUoEvhlABWVYpxsjMd262QR4mf7tZirp4dW0kztXmWo/edit"
                     target="_blank"
@@ -1824,7 +1799,6 @@
         // === 4. 數簿連線邏輯 ===
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
         let isFetching = false;
-        let globalTransactionData = []; // 用黎儲存由 Google Sheet 拉落黎既資料
         async function fetchRealTimeData() {
             if (isFetching) return;
             isFetching = true;
@@ -1835,11 +1809,10 @@
                 const data = await response.json();
 
                 if (data && Array.isArray(data)) {
-    globalTransactionData = data; // <--- 加呢句！儲存資料比結算機用
-    updateUI(data);
-    document.getElementById('loading-spinner').style.display = 'none';
-    badge.innerHTML = '剛剛更新';
-}
+                    updateUI(data);
+                    document.getElementById('loading-spinner').style.display = 'none';
+                    badge.innerHTML = '剛剛更新';
+                }
             } catch (error) {
                 console.error("Fetch Error:", error);
                 badge.innerHTML = '⚠️ 連線失敗';
@@ -1900,30 +1873,6 @@
             });
         }
         initPackingList();
-        <div class="card" style="border-left: 5px solid #009688;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3>⚖️ 夾錢結算機</h3>
-        <button onclick="calculateSettlement()" style="background:#009688; color:white; border:none; padding:5px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
-            <i class="fas fa-calculator"></i> 立即計算
-        </button>
-    </div>
-    <p style="font-size:0.8rem; color:#666; margin-bottom:10px;">
-        邏輯：<span style="color:#d32f2f; font-weight:bold;">紅色</span>代表要拎錢出黎，<span style="color:#2e7d32; font-weight:bold;">綠色</span>代表收錢返黎。
-    </p>
-    <div id="settlement-result" style="display:none; animation: startupFadeIn 0.5s;">
-        <table class="accounts-table">
-            <thead>
-                <tr>
-                    <th>成員</th>
-                    <th>HKD (港幣)</th>
-                    <th>JPY (日圓)</th>
-                </tr>
-            </thead>
-            <tbody id="settlement-table-body">
-                </tbody>
-        </table>
-    </div>
-</div>
     </script>
 </body>
 
