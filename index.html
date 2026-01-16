@@ -12,48 +12,23 @@
     <meta name="theme-color" content="#1e3c72">
     
     <link rel="manifest" href="manifest.json">
-    <link rel="preload" as="image" href="bg.jpg">
     <link rel="apple-touch-icon" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
     <link rel="icon" type="image/png" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
     <style>
         /* === 全局設定 === */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            width: 100%;
-            overflow-x: hidden;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; overflow-x: hidden; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f2f4f8; 
-            color: #333;
-            position: relative;
-            padding-bottom: 90px;
+            background-color: #f2f4f8; color: #333; padding-bottom: 90px;
         }
 
         #bg-layer {
-            position: fixed;
-            top: -10vh;
-            left: 0;
-            width: 100vw;
-            height: 120vh;
-            z-index: -999;
-            background-image: url('bg.jpg'); 
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            background-attachment: fixed; 
-            background-color: rgba(255, 255, 255, 0.5); 
-            background-blend-mode: overlay;
-            opacity: 1; 
+            position: fixed; top: -10vh; left: 0; width: 100vw; height: 120vh; z-index: -999;
+            background-image: url('bg.jpg'); background-size: cover; background-position: center top;
+            background-color: rgba(255, 255, 255, 0.5); background-blend-mode: overlay;
         }
 
         @keyframes startupFadeIn {
@@ -64,96 +39,53 @@
         header, main, .bottom-nav {
             opacity: 0;
             animation: startupFadeIn 0.8s ease-out forwards;
-            animation-delay: 1.0s; /* 縮短為 1秒，方便調試 */
+            animation-delay: 0.5s;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            color: #222;
-            margin-bottom: 15px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 10px;
-            font-weight: 700;
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(8px);
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         header {
             background: linear-gradient(135deg, rgba(30, 60, 114, 0.85) 0%, rgba(42, 82, 152, 0.85) 100%);
-            backdrop-filter: blur(8px);
-            color: white;
-            padding: 25px 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+            color: white; padding: 25px 15px; text-align: center; position: sticky; top: 0; z-index: 100;
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
         }
 
-        header h1 { font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
         .fa-spin-slow { animation: fa-spin 5s infinite linear; }
-
-        .snowflake {
-            position: fixed;
-            top: -20px;
-            z-index: 9999;
-            color: #fff;
-            animation-name: fall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            pointer-events: none;
-        }
-
+        .snowflake { position: fixed; top: -20px; z-index: 9999; color: #fff; animation: fall linear infinite; pointer-events: none; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
         main { padding: 20px 15px; max-width: 600px; margin: 0 auto; position: relative; z-index: 1; }
         .hidden-section { display: none; }
         .active-section { display: block; }
 
-        /* === 數簿樣式 === */
+        /* 列表與表格樣式 */
+        .summary-list, .live-list { list-style: none; }
+        .date-badge { background: #1e3c72; color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; margin-right: 10px; }
+        .accounts-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .accounts-table th { text-align: left; padding: 8px; border-bottom: 2px solid #eee; color: #888; }
+        .accounts-table td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; }
+
         .stats-container { display: flex; gap: 10px; margin-bottom: 20px; }
-        .stat-box {
-            flex: 1;
-            background: rgba(51, 51, 51, 0.8);
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
+        .stat-box { flex: 1; background: rgba(51, 51, 51, 0.85); color: white; padding: 15px; border-radius: 12px; text-align: center; }
         .stat-jpy { color: #fbc2eb; }
         .stat-hkd { color: #4facfe; }
 
-        .accounts-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .accounts-table th { text-align: left; padding: 8px; border-bottom: 2px solid #eee; color: #888; font-size: 0.8rem; }
-        .accounts-table td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; }
-
-        .live-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .btn-speak { display: inline-block; margin-left: 8px; color: #1e3c72; cursor: pointer; }
-
-        /* === Bottom Nav === */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(15px);
-            display: flex; justify-content: space-around;
-            padding: 10px 0 15px;
-            z-index: 999;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px);
+            display: flex; justify-content: space-around; padding: 10px 0 15px; z-index: 999;
         }
-        .nav-btn { background: none; border: none; font-size: 0.6rem; color: #999; cursor: pointer; }
+        .nav-btn { background: none; border: none; font-size: 0.6rem; color: #999; cursor: pointer; width: 12.5%; }
         .nav-btn.active { color: #1e3c72; font-weight: bold; }
+        .nav-btn i { font-size: 1.1rem; margin-bottom: 4px; display: block; }
+        
+        .highlight { color: #d32f2f; font-weight: bold; }
+        .divider { height: 1px; background: #eee; margin: 12px 0; }
+        .event { margin-bottom: 25px; border-left: 3px solid #1e3c72; padding-left: 15px; }
     </style>
 </head>
 
@@ -168,208 +100,214 @@
     <main id="content">
         <section id="home" class="active-section">
             <div class="card intro-card">
-                <h2>ARE U READY?????</h2>
-                <div class="vibes-box">
+                <h2 style="text-align: center;">ARE U READY?????</h2>
+                <div style="background: rgba(255, 243, 224, 0.6); border: 2px dashed #ff9800; border-radius: 12px; padding: 15px; margin-top: 15px;">
                     <i class="fas fa-bullhorn"></i> 旅程規則：淨係可以講<br>
-                    <span class="quote">「好玩！」😆、「好食！」😋</span>
-                    <span class="quote">「好開心呀！」🥳</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="accounts" class="hidden-section">
-            <div class="section-title">
-                <h2>💰 預算與數簿</h2>
-            </div>
-
-            <div class="stats-container">
-                <div class="stat-box">
-                    <div class="stat-label">總開支 (JPY)</div>
-                    <div class="stat-val stat-jpy" id="total-jpy">0</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">總開支 (HKD)</div>
-                    <div class="stat-val stat-hkd" id="total-hkd">0</div>
-                </div>
-            </div>
-
-            <div class="card" id="settlement-card">
-                <h3>⚖️ 每人應付/應收結餘</h3>
-                <p style="font-size:0.75rem; color:#888; margin-bottom:10px;">
-                    已採用匯率：100 JPY = 4.92 HKD (依數據自動換算)
-                </p>
-                <div style="overflow-x: auto;">
-                    <table class="accounts-table">
-                        <thead>
-                            <tr>
-                                <th style="width:34%">成員</th>
-                                <th style="text-align:right;">HKD 差額</th>
-                                <th style="text-align:right;">JPY 差額</th>
-                            </tr>
-                        </thead>
-                        <tbody id="settlement-list"></tbody>
-                    </table>
-                </div>
-
-                <div id="transfer-suggestions-box" style="margin-top: 25px; border-top: 2px dashed #ddd; padding-top: 15px;">
-                    <h4 style="color: #1e3c72; margin-bottom: 12px;">
-                        <i class="fas fa-hand-holding-usd"></i> 最終找數方案 (折算港幣)
-                    </h4>
-                    <ul id="suggestion-list" style="list-style: none; padding: 0;"></ul>
-                </div>
-            </div>
-
-            <div class="card" style="padding:0; overflow:hidden; border-left: 5px solid #1976d2;">
-                <div style="padding:15px; text-align:center; background:#e3f2fd;">
-                    <h3 style="color:#1976d2; border:none; margin:0;">📝 錄入公數</h3>
-                </div>
-                <div class="form-container">
-                    <iframe src="https://docs.google.com/forms/d/1Xrtn5QPAqmvoQReIpjOL1V-LP7q23AcPoPuU7Re-ItU/viewform?embedded=true">載入中…</iframe>
+                    <span style="display: block; font-size: 1.1rem; margin: 5px 0;">「好玩！」😆、「好食！」😋</span>
+                    <span style="display: block; font-size: 1.1rem; margin: 5px 0;">「好開心呀！」🥳</span>
                 </div>
             </div>
 
             <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <h3>📜 最新入數記錄</h3>
-                    <span id="update-badge" style="font-size:0.7rem; color:#aaa;">同步中...</span>
-                </div>
-                <ul class="live-list" id="transaction-list"></ul>
+                <h3>🗺️ 行程速覽</h3>
+                <ul class="summary-list">
+                    <li><span class="date-badge">1/14</span><span><strong>集合日：</strong> 分批到埗 ➔ 租車 ➔ 宵夜</span></li>
+                    <li><span class="date-badge">1/15</span><span><strong>體能日：</strong> 晨早滑雪 ➔ 由布院溫泉</span></li>
+                    <li><span class="date-badge">1/16</span><span><strong>移動日：</strong> 由布院散策 ➔ 返市區 ➔ 屋台</span></li>
+                    <li><span class="date-badge">1/17</span><span><strong>回程日：</strong> 最後衝刺 ➔ 分批飛返歸</span></li>
+                </ul>
             </div>
         </section>
 
-        </main>
+        <section id="flights" class="hidden-section">
+            <div class="card">
+                <h3>✈️ 航班時間表</h3>
+                <div class="flight-route">
+                    <p><strong>YO姐 (CX588/CX513)</strong></p>
+                    <p>1/14 15:20 抵達 | 1/17 14:10 出發</p>
+                    <div class="divider"></div>
+                    <p><strong>東京組 (YWS/Tony/Yela)</strong></p>
+                    <p>1/14 18:35 抵達 | 1/17 18:05/19:10 出發</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="itinerary" class="hidden-section">
+            <div class="card">
+                <h3>🗓️ 詳細行程</h3>
+                <div class="event"><strong>1/14 Day 1</strong><br>19:00 機場集合取車 ➔ 天神酒店 Check-in</div>
+                <div class="event"><strong>1/15 Day 2</strong><br>06:00 出發九重滑雪場 ➔ 18:00 由布院晚餐</div>
+                <div class="event"><strong>1/16 Day 3</strong><br>由布院散策 ➔ 返回市區 ➔ 機場還車</div>
+            </div>
+        </section>
+
+        <section id="explore" class="hidden-section">
+            <div class="card">
+                <h3>🛍️ 食・買・玩推介</h3>
+                <p>• 鳥栖 Premium Outlets (Day 3 順路)</p>
+                <p>• 博多華味鳥 (水炊雞)</p>
+                <p>• 由布まぶし 心 (豐後牛釜飯)</p>
+            </div>
+        </section>
+
+        <section id="ski" class="hidden-section">
+            <div class="card">
+                <h3>🏂 滑雪攻略</h3>
+                <p>• <strong>09:10 Deadline</strong> 滑雪學校報到</p>
+                <p>• 跌倒姿勢：雙手握拳放胸口，背脊落地</p>
+                <p>• 裝備：雪襪、Heattech、護臀褲</p>
+            </div>
+        </section>
+
+        <section id="packing" class="hidden-section">
+            <div class="card">
+                <h3>🎒 必帶清單</h3>
+                <ul style="list-style: none;">
+                    <li><input type="checkbox"> 護照 & 國際牌</li>
+                    <li><input type="checkbox"> 現金 Yen (滑雪場用)</li>
+                    <li><input type="checkbox"> 轉插 & 尿袋</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="accounts" class="hidden-section">
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-label">總開支 (JPY)</div>
+                    <div id="total-jpy" class="stat-jpy" style="font-size: 1.4rem; font-weight: bold;">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">總開支 (HKD)</div>
+                    <div id="total-hkd" class="stat-hkd" style="font-size: 1.4rem; font-weight: bold;">0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚖️ 分帳結算 (100 JPY = 4.92 HKD)</h3>
+                <div style="overflow-x: auto;">
+                    <table class="accounts-table">
+                        <thead>
+                            <tr><th>成員</th><th style="text-align:right;">HKD 差額</th><th style="text-align:right;">JPY 差額</th></tr>
+                        </thead>
+                        <tbody id="settlement-list"></tbody>
+                    </table>
+                </div>
+                <div id="transfer-suggestions-box" style="margin-top: 20px; border-top: 1px dashed #ddd; padding-top: 15px;">
+                    <h4 style="margin-bottom: 10px; color: #1e3c72;">💸 最終找數方案</h4>
+                    <ul id="suggestion-list" style="list-style: none;"></ul>
+                </div>
+            </div>
+
+            <div class="card" style="padding:0; overflow:hidden;">
+                <iframe src="https://docs.google.com/forms/d/1Xrtn5QPAqmvoQReIpjOL1V-LP7q23AcPoPuU7Re-ItU/viewform?embedded=true" width="100%" height="450" frameborder="0"></iframe>
+            </div>
+            
+            <div style="text-align:center; margin-bottom:20px;">
+                <a href="https://docs.google.com/spreadsheets/d/1cUoEvhlABWVYpxsjMd262QR4mf7tZirp4dW0kztXmWo/edit" target="_blank" style="background:#188038; color:white; padding:10px 20px; border-radius:50px; text-decoration:none; font-weight:bold;">
+                    <i class="fas fa-file-excel"></i> 打開 Google Sheet 數簿
+                </a>
+            </div>
+        </section>
+
+        <section id="bookings" class="hidden-section">
+            <div class="card">
+                <h3>📑 預訂號碼 Master List</h3>
+                <p>• 住宿 1/14: PIN 9276</p>
+                <p>• 住宿 1/15: 8QAXAK26</p>
+            </div>
+        </section>
+    </main>
 
     <nav class="bottom-nav">
-        <button onclick="showSection('home')" class="nav-btn active"><i class="fas fa-home"></i><br>總覽</button>
-        <button onclick="showSection('accounts')" class="nav-btn"><i class="fas fa-calculator"></i><br>數簿</button>
-        </nav>
+        <button onclick="showSection('home')" class="nav-btn active"><i class="fas fa-home"></i>總覽</button>
+        <button onclick="showSection('flights')" class="nav-btn"><i class="fas fa-plane"></i>機票</button>
+        <button onclick="showSection('itinerary')" class="nav-btn"><i class="fas fa-list-ul"></i>行程</button>
+        <button onclick="showSection('explore')" class="nav-btn"><i class="fas fa-utensils"></i>推介</button>
+        <button onclick="showSection('ski')" class="nav-btn"><i class="fas fa-snowflake"></i>攻略</button>
+        <button onclick="showSection('packing')" class="nav-btn"><i class="fas fa-suitcase"></i>行李</button>
+        <button onclick="showSection('accounts')" class="nav-btn"><i class="fas fa-calculator"></i>數簿</button>
+        <button onclick="showSection('bookings')" class="nav-btn"><i class="fas fa-ticket-alt"></i>號碼</button>
+    </nav>
 
     <script>
-        // === 1. 頁面與雪花邏輯 ===
-        function showSection(sectionId) {
+        function showSection(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.replace('active-section', 'hidden-section'));
-            document.getElementById(sectionId).classList.replace('hidden-section', 'active-section');
+            document.getElementById(id).classList.replace('hidden-section', 'active-section');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             event.currentTarget.classList.add('active');
             window.scrollTo(0, 0);
         }
+
         function createSnowflake() {
-            const s = document.createElement('div');
-            s.className = 'snowflake'; s.innerHTML = '❄';
-            s.style.left = Math.random() * 100 + 'vw';
-            s.style.animationDuration = Math.random() * 3 + 2 + 's';
-            s.style.opacity = Math.random();
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 5000);
+            const s = document.createElement('div'); s.className = 'snowflake'; s.innerHTML = '❄';
+            s.style.left = Math.random() * 100 + 'vw'; s.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            s.style.animationDuration = (Math.random() * 3 + 2) + 's'; s.style.opacity = Math.random();
+            document.body.appendChild(s); setTimeout(() => s.remove(), 5000);
         }
         setInterval(createSnowflake, 200);
 
-        // === 2. 數據同步與結算邏輯 ===
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
-        const JPY_TO_HKD = 0.0492; 
+        const JPY_TO_HKD = 0.0492; // 100 JPY = 4.92 HKD 
 
-        async function fetchRealTimeData() {
+        async function fetchData() {
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL);
                 const data = await response.json();
-                if (data && Array.isArray(data)) {
-                    updateUI(data);
-                    document.getElementById('update-badge').innerHTML = '剛剛更新';
-                }
-            } catch (e) { document.getElementById('update-badge').innerHTML = '⚠️ 同步失敗'; }
+                if (Array.isArray(data)) updateUI(data);
+            } catch (e) { console.error(e); }
         }
 
         function updateUI(data) {
-            let sumJpy = 0, sumHkd = 0;
-            const list = document.getElementById('transaction-list');
-            list.innerHTML = '';
-
-            data.forEach(row => {
-                let amt = parseFloat(row.amount) || 0;
-                if (row.currency === 'JPY') sumJpy += amt;
-                else if (row.currency === 'HKD') sumHkd += amt;
+            let jpy = 0, hkd = 0;
+            data.forEach(r => {
+                let a = parseFloat(r.amount) || 0;
+                if (r.currency === 'JPY') jpy += a; else hkd += a;
             });
-
-            document.getElementById('total-jpy').innerText = sumJpy.toLocaleString();
-            document.getElementById('total-hkd').innerText = sumHkd.toLocaleString();
-
-            data.slice(0, 5).forEach(row => {
-                const li = document.createElement('li');
-                li.className = 'live-item';
-                li.innerHTML = `<div class="live-info"><span class="live-title">${row.item}</span><small>${row.payer} 墊支</small></div>
-                                <div class="live-amt">${row.currency} ${parseFloat(row.amount).toLocaleString()}</div>`;
-                list.appendChild(li);
-            });
-
-            // 🚀 執行分帳結算
+            document.getElementById('total-jpy').innerText = jpy.toLocaleString();
+            document.getElementById('total-hkd').innerText = hkd.toLocaleString();
             calculateSettlement(data);
         }
 
         function calculateSettlement(data) {
-            const members = ['YO姐', 'YWS', 'Yela', 'Tony', 'Carol', 'I人'];
-            let balances = {};
-            members.forEach(m => balances[m] = { HKD: 0, JPY: 0 });
+            const members = ['YO姐', 'YWS', 'Yela', 'Tony', 'Carol', 'I人']; [cite: 1]
+            let bal = {}; members.forEach(m => bal[m] = { HKD: 0, JPY: 0 });
 
-            data.forEach(row => {
-                const amt = parseFloat(row.amount) || 0;
-                const curr = row.currency;
-                const payer = row.payer;
-                let involved = [];
-
-                if (!row.beneficiaries || row.beneficiaries.trim() === '全員' || row.beneficiaries.trim() === '') {
-                    involved = [...members];
-                } else {
-                    involved = row.beneficiaries.split(/[,，\s]+/).map(s => s.trim()).filter(n => members.includes(n));
-                }
-
-                if (involved.length > 0) {
-                    const per = amt / involved.length;
-                    involved.forEach(m => balances[m][curr] += per);
-                    if (balances[payer]) balances[payer][curr] -= amt;
+            data.forEach(r => {
+                const amt = parseFloat(r.amount) || 0;
+                const payer = r.payer; // 
+                let inv = (!r.beneficiaries || r.beneficiaries === '全員') ? [...members] : r.beneficiaries.split(/[,，\s]+/).map(s=>s.trim()).filter(n=>members.includes(n));
+                if (inv.length > 0) {
+                    const per = amt / inv.length;
+                    inv.forEach(m => bal[m][r.currency] += per);
+                    if (bal[payer]) bal[payer][r.currency] -= amt;
                 }
             });
 
-            const tbody = document.getElementById('settlement-list');
-            tbody.innerHTML = '';
+            const tbody = document.getElementById('settlement-list'); tbody.innerHTML = '';
             let summary = [];
-
             members.forEach(m => {
-                const h = balances[m].HKD, j = balances[m].JPY;
-                const totalInHkd = h + (j * JPY_TO_HKD);
-                summary.push({ name: m, balance: totalInHkd });
-
+                const h = bal[m].HKD, j = bal[m].JPY;
+                const totalHkd = h + (j * JPY_TO_HKD);
+                summary.push({ name: m, balance: totalHkd });
                 tbody.innerHTML += `<tr><td><strong>${m}</strong></td>
                     <td style="text-align:right; font-weight:bold; color:${h > 0 ? '#c62828' : '#2e7d32'}">${h > 0 ? '+' : ''}${h.toFixed(1)}</td>
                     <td style="text-align:right; font-weight:bold; color:${j > 0 ? '#c62828' : '#2e7d32'}">${j > 0 ? '+' : ''}${Math.round(j)}</td></tr>`;
             });
 
-            generateSuggestions(summary);
-        }
-
-        function generateSuggestions(summary) {
-            const list = document.getElementById('suggestion-list');
-            list.innerHTML = '';
+            const suggest = document.getElementById('suggestion-list'); suggest.innerHTML = '';
             let debtors = summary.filter(x => x.balance > 0.5).sort((a,b) => b.balance - a.balance);
             let creditors = summary.filter(x => x.balance < -0.5).sort((a,b) => a.balance - b.balance);
-
-            if (debtors.length === 0) {
-                list.innerHTML = '<li>✅ 帳目已平</li>'; return;
-            }
 
             let i = 0, j = 0;
             while (i < debtors.length && j < creditors.length) {
                 let amt = Math.min(debtors[i].balance, Math.abs(creditors[j].balance));
-                list.innerHTML += `<li style="margin-bottom:8px; padding:10px; background:rgba(255,255,255,0.6); border-radius:8px; border-left:4px solid #1e3c72;">
-                    💸 <strong>${debtors[i].name}</strong> ➔ 找數給 <strong>${creditors[j].name}</strong><br>
-                    <span style="color:#d32f2f; font-weight:900;">$${amt.toFixed(1)} HKD</span></li>`;
+                suggest.innerHTML += `<li style="padding:10px; background:#fff; margin-bottom:5px; border-radius:8px;">
+                    💸 <strong>${debtors[i].name}</strong> ➔ 找給 <strong>${creditors[j].name}</strong>: <span class="highlight">$${amt.toFixed(1)} HKD</span></li>`;
                 debtors[i].balance -= amt; creditors[j].balance += amt;
-                if (debtors[i].balance < 0.5) i++;
-                if (Math.abs(creditors[j].balance) < 0.5) j++;
+                if (debtors[i].balance < 0.5) i++; if (Math.abs(creditors[j].balance) < 0.5) j++;
             }
         }
-
-        setInterval(fetchRealTimeData, 5000);
-        fetchRealTimeData();
+        setInterval(fetchData, 5000); fetchData();
     </script>
 </body>
 </html>
