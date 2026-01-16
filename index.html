@@ -3,18 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>福岡之旅</title>
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1e3c72">
+    
+    <link rel="manifest" href="manifest.json">
 
-    <link rel="apple-touch-icon"
-        href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
-    <link rel="icon" type="image/png"
-        href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
+    <link rel="preload" as="image" href="bg.jpg">
+
+    <link rel="apple-touch-icon" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
+    <link rel="icon" type="image/png" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -27,49 +29,105 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f2f4f8;
-            color: #333;
-            padding-bottom: 90px;
+        html, body {
+            width: 100%;
             overflow-x: hidden;
         }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f2f4f8; 
+            color: #333;
+            position: relative;
+            padding-bottom: 90px;
+        }
+
+        /* === 🔧 背景層 (這就是你的 Loading 畫面) === */
         #bg-layer {
             position: fixed;
-            top: 0;
+            top: -10vh;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: url('background.jpg');
+            width: 100vw;
+            height: 120vh; /* 故意做大一點防止露底 */
+            z-index: -999;
+            
+            /* ⚠️ 圖片 */
+            background-image: url('bg.jpg'); 
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
-            filter: blur(3px);
+            
+            background-attachment: fixed; 
+
+            /* 50% 透明白色濾鏡 */
+            background-color: rgba(255, 255, 255, 0.5); 
+            background-blend-mode: overlay;
+            
+            filter: none;
+            transform: none;
+            
+            pointer-events: none;
+            
+            /* 背景層不設動畫，一打開就係度！ */
+            opacity: 1; 
         }
 
-        /* 新增：購物卡樣式 */
-        .shop-card {
-            border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+        /* === ✨ 開場動畫設定 === */
+        @keyframes startupFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px); /* 內容由下升上 */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .shop-card h3 {
-            color: #7b1fa2;
-            border-bottom: 2px solid #e1bee7;
+        /* 將動畫套用到 Header, Main, Bottom-Nav 
+           邏輯：一開始 opacity: 0 (隱形)，等你睇 1秒 背景之後，先慢慢浮現。
+        */
+        header, main, .bottom-nav {
+            opacity: 0; /* 初始狀態：隱藏 */
+            animation: startupFadeIn 0.8s ease-out forwards; /* 浮現動畫 0.8秒 */
+            animation-delay: 3.0s; /* ⏳ 延遲 3秒 執行 (這 1秒就是你的背景展示時間) */
+        }
+
+        /* === 卡片樣式 === */
+        .card {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            color: #222;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 1); 
         }
 
         /* === Header === */
         header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.85) 0%, rgba(42, 82, 152, 0.85) 100%);
+            backdrop-filter: blur(8px);
             color: white;
             padding: 25px 15px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
         }
@@ -123,6 +181,8 @@
             padding: 20px 15px;
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .hidden-section {
@@ -131,24 +191,12 @@
 
         .active-section {
             display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .section-title {
             text-align: center;
             margin: 10px 0 25px;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.9);
         }
 
         .section-title h2 {
@@ -158,30 +206,36 @@
         }
 
         .section-title p {
-            color: #666;
+            color: #333;
             font-size: 0.9rem;
             margin-top: 5px;
-        }
-
-        /* === Cards === */
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.02);
-        }
-
-        .card h3 {
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
             font-weight: 600;
+        }
+        
+        /* === 發音按鈕 === */
+        .btn-speak {
+            display: inline-block;
+            margin-left: 8px;
+            background-color: rgba(227, 242, 253, 0.9);
+            color: #1e3c72;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+
+        .btn-speak:active {
+            transform: scale(0.9);
+            background-color: #bbdefb;
+        }
+
+        .btn-speak i {
+            font-size: 0.8rem;
         }
 
         /* === V20 新增樣式 (實時記帳用) === */
@@ -193,12 +247,13 @@
 
         .stat-box {
             flex: 1;
-            background: #333;
+            background: rgba(51, 51, 51, 0.8);
             color: white;
             padding: 15px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         .stat-label {
@@ -276,7 +331,6 @@
         /* === Home Styles === */
         .intro-card {
             text-align: center;
-            background: white;
         }
 
         .intro-card h2 {
@@ -289,7 +343,7 @@
 
         .countdown-box {
             margin-top: 15px;
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.6);
             color: #1565c0;
             padding: 12px;
             border-radius: 12px;
@@ -299,7 +353,7 @@
 
         .vibes-box {
             margin-top: 15px;
-            background: #fff3e0;
+            background: rgba(255, 243, 224, 0.6);
             border: 2px dashed #ff9800;
             border-radius: 12px;
             padding: 15px;
@@ -322,7 +376,7 @@
         }
 
         .member-item {
-            background: #f1f3f5;
+            background: rgba(241, 243, 245, 0.9);
             padding: 8px 14px;
             border-radius: 25px;
             font-size: 0.9rem;
@@ -446,17 +500,18 @@
         }
 
         .day-header {
-            background: #1e3c72;
+            background: rgba(30, 60, 114, 0.85);
             color: white;
             padding: 10px 15px;
             border-radius: 10px;
             font-weight: bold;
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         .timeline {
-            border-left: 3px solid #e0e0e0;
+            border-left: 3px solid rgba(255, 255, 255, 0.6);
             margin-left: 10px;
             padding-left: 25px;
         }
@@ -476,7 +531,7 @@
             background: white;
             border: 4px solid #1e3c72;
             border-radius: 50%;
-            box-shadow: 0 0 0 2px white;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
         }
 
         .event .time {
@@ -484,14 +539,16 @@
             color: #1e3c72;
             font-size: 0.95rem;
             margin-bottom: 6px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
         }
 
         .event .desc {
-            background: white;
+            background: rgba(255, 255, 255, 0.85);
             padding: 12px 15px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            border: 1px solid #eee;
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(5px);
         }
 
         .note {
@@ -503,7 +560,17 @@
 
         .highlight-box .desc {
             border-left: 4px solid #e91e63;
-            background: #fff0f5;
+            background: rgba(255, 240, 245, 0.9);
+        }
+
+        .shop-card {
+            border-left: 5px solid #9c27b0;
+            background: rgba(243, 229, 245, 0.75);
+        }
+
+        .shop-card h3 {
+            color: #7b1fa2;
+            border-bottom: 2px solid #e1bee7;
         }
 
         .food-card {
@@ -556,7 +623,7 @@
 
         /* === Ski & Packing === */
         .warning-card {
-            background: #fff5f5;
+            background: rgba(255, 245, 245, 0.75);
             border-left: 5px solid #c62828;
         }
 
@@ -567,7 +634,7 @@
 
         .outfit-card {
             border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+            background: rgba(243, 229, 245, 0.75);
         }
 
         .outfit-card h3 {
@@ -576,7 +643,7 @@
         }
 
         .tips-card-a {
-            background: #e8f5e9;
+            background: rgba(232, 245, 233, 0.75);
             border-left: 5px solid #2e7d32;
         }
 
@@ -586,7 +653,7 @@
         }
 
         .tips-card-b {
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.75);
             border-left: 5px solid #1565c0;
         }
 
@@ -596,7 +663,7 @@
         }
 
         .language-card {
-            background: #fff3e0;
+            background: rgba(255, 243, 224, 0.75);
             border-left: 5px solid #ef6c00;
         }
 
@@ -617,14 +684,15 @@
             border-radius: 10px;
             color: white;
             text-align: center;
+            backdrop-filter: blur(5px);
         }
 
         .weather-city {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.8), rgba(0, 242, 254, 0.8));
         }
 
         .weather-ski {
-            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.8), rgba(251, 194, 235, 0.8));
         }
 
         .weather-box h4 {
@@ -640,7 +708,7 @@
         .btn-jma {
             display: block;
             width: 100%;
-            background: white;
+            background: rgba(255,255,255,0.8);
             border: none;
             color: #1e3c72;
             text-align: center;
@@ -673,7 +741,7 @@
 
         .alert-card {
             border: 2px solid #c62828;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .checklist li {
@@ -681,7 +749,7 @@
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            border-bottom: 1px dashed #eee;
+            border-bottom: 1px dashed #bbb;
             padding-bottom: 8px;
         }
 
@@ -697,37 +765,37 @@
 
         .check-card[style*="2196f3"] {
             border-left: 5px solid #2196f3;
-            background: #e3f2fd;
+            background: rgba(227, 242, 253, 0.75);
         }
 
         .check-card[style*="e91e63"] {
             border-left: 5px solid #e91e63;
-            background: #fce4ec;
+            background: rgba(252, 228, 236, 0.75);
         }
 
         .check-card[style*="009688"] {
             border-left: 5px solid #009688;
-            background: #e0f2f1;
+            background: rgba(224, 242, 241, 0.75);
         }
 
         .check-card[style*="3f51b5"] {
             border-left: 5px solid #3f51b5;
-            background: #e8eaf6;
+            background: rgba(232, 234, 246, 0.75);
         }
 
         .check-card[style*="9c27b0"] {
             border-left: 5px solid #9c27b0;
-            background: #f3e5f5;
+            background: rgba(243, 229, 245, 0.75);
         }
 
         .check-card[style*="fbc02d"] {
             border-left: 5px solid #fbc02d;
-            background: #fff9c4;
+            background: rgba(255, 249, 196, 0.75);
         }
-
+        
         .check-card[style*="ff4081"] {
             border-left: 5px solid #ff4081;
-            background: #fff0f6;
+            background: rgba(255, 240, 246, 0.75);
         }
 
         /* === Accounts / Form === */
@@ -793,11 +861,12 @@
 
         .booking-group h3 {
             font-size: 1rem;
-            color: #888;
+            color: #555;
             margin-bottom: 12px;
             padding-left: 5px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
         }
 
         .booking-item {
@@ -805,12 +874,12 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.85);
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 12px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-            border: 1px solid #f0f0f0;
+            border: 1px solid rgba(255,255,255,0.4);
             transition: transform 0.1s;
         }
 
@@ -829,7 +898,7 @@
         .booking-item .code {
             font-family: 'Courier New', monospace;
             font-weight: bold;
-            background: #f1f3f5;
+            background: rgba(241, 243, 245, 0.9);
             padding: 6px 10px;
             border-radius: 6px;
             color: #1e3c72;
@@ -846,20 +915,24 @@
             word-break: break-all;
         }
 
-        /* === Bottom Nav === */
+        /* === Bottom Nav (Glass) === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            
+            /* 導航欄透明度 */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            
             display: flex;
             justify-content: space-around;
             padding: 10px 0 15px;
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
             z-index: 999;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nav-btn {
@@ -905,20 +978,6 @@
 
         .nav-btn-link:hover {
             background: #45a049;
-        }
-
-        /* 原檔缺失的語音按鈕樣式 */
-        .btn-speak {
-            display: inline-block;
-            margin-left: 8px;
-            background-color: #e3f2fd;
-            color: #1e3c72;
-            width: 28px;
-            height: 28px;
-            line-height: 28px;
-            text-align: center;
-            border-radius: 50%;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -1349,28 +1408,91 @@
                             連續做。<br>視線好重要，望住你想去嘅方向，個身自然會跟住轉。</span></li>
                 </ul>
             </div>
+
             <div class="card language-card">
-                <h3>🗣️ 教練會講咩？ (完整句子)</h3>
-                <p style="margin-bottom:10px; font-size:0.9rem;">教練通常會講呢啲指令：</p>
+                <h3>🗣️ 教練會講咩？ (點擊發音)</h3>
+                <p style="margin-bottom:10px; font-size:0.9rem;">教練講呢啲，禁個喇叭掣聽發音：</p>
                 <table style="width:100%; font-size:0.85rem; border-collapse: collapse;">
                     <tr style="border-bottom:2px solid #ffcc80;">
-                        <th style="text-align:left; padding:8px 5px;">教練講 (日文/英文)</th>
-                        <th style="text-align:left; padding:8px 5px;">你點做 (意思)</th>
+                        <th style="text-align:left; padding:8px 5px;">教練講 (日文)</th>
+                        <th style="text-align:left; padding:8px 5px;">意思</th>
                     </tr>
+                    
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>膝を曲げて (Hiza o magete)</strong> <a onclick="playAudio('膝を曲げて')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em
-                                style="color:#888;">"Bend your knees"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>膝を曲げて</strong><br>
+                            <em style="color:#888;">(Hiza o magete)</em>
+                            <a onclick="playAudio('膝を曲げて')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">曲膝頭！<br>(重心放低)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>前を見て (Mae o mite)</strong> <a onclick="playAudio('前を見て')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em style="color:#888;">"Look
-                                forward"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>前を見て</strong><br>
+                            <em style="color:#888;">(Mae o mite)</em>
+                            <a onclick="playAudio('前を見て')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">望前面！<br>(唔好望地)</td>
                     </tr>
+
                     <tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 5px;"><strong>止まって！ (Tomatte!)</strong> <a onclick="playAudio('止まって')" class="btn-speak"><i class="fas fa-volume-up"></i></a><br><em
-                                style="color:#888;">"Stop!"</em></td>
+                        <td style="padding:8px 5px;">
+                            <strong>かかとに重心</strong><br>
+                            <em style="color:#888;">(Kakato ni juushin)</em>
+                            <a onclick="playAudio('かかとに重心')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
+                        <td style="padding:8px 5px;">用腳踭用力<br>(Heel side)</td>
+                    </tr>
+
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 5px;">
+                            <strong>ゆっくり立って</strong><br>
+                            <em style="color:#888;">(Yukkuri tatte)</em>
+                            <a onclick="playAudio('ゆっくり立って')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
+                        <td style="padding:8px 5px;">慢慢起身</td>
+                    </tr>
+
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 5px;">
+                            <strong>止まって！</strong><br>
+                            <em style="color:#888;">(Tomatte!)</em>
+                            <a onclick="playAudio('止まって')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
                         <td style="padding:8px 5px;">即刻停！<br>(坐低或剎車)</td>
+                    </tr>
+
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 5px;">
+                            <strong>大丈夫ですか？</strong><br>
+                            <em style="color:#888;">(Daijoubu desu ka?)</em>
+                            <a onclick="playAudio('大丈夫ですか')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
+                        <td style="padding:8px 5px;">有無事？<br>(無事比OK手勢)</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:8px 5px;">
+                            <strong>一人ずつ</strong><br>
+                            <em style="color:#888;">(Hitori zutsu)</em>
+                            <a onclick="playAudio('一人ずつ')" class="btn-speak">
+                                <i class="fas fa-volume-up"></i>
+                            </a>
+                        </td>
+                        <td style="padding:8px 5px;">一個個嚟<br>(唔好爭先)</td>
                     </tr>
                 </table>
             </div>
@@ -1378,7 +1500,7 @@
 
         <section id="packing" class="hidden-section">
             <div class="section-title">
-                <h2>🎒 行機與必帶清單</h2>
+                <h2>🎒 行李與必帶清單</h2>
             </div>
             <div class="card check-card" style="border-left: 5px solid #ff4081; background: #fff0f6;">
                 <h3>😍 心情 (最重要!)</h3>
@@ -1476,23 +1598,6 @@
                 <div class="stat-box">
                     <div class="stat-label">總開支 (HKD)</div>
                     <div class="stat-val stat-hkd" id="total-hkd">0</div>
-                </div>
-            </div>
-
-            <div class="card" id="settlement-card">
-                <h3>⚖️ 每人應付/應收結餘</h3>
-                <p style="font-size:0.75rem; color:#888; margin-bottom:10px;">已採用最新匯率：100 JPY = 4.92 HKD </p>
-                <div style="overflow-x: auto;">
-                    <table class="accounts-table">
-                        <thead>
-                            <tr><th>成員</th><th style="text-align:right;">HKD 差額</th><th style="text-align:right;">JPY 差額</th></tr>
-                        </thead>
-                        <tbody id="settlement-list"></tbody>
-                    </table>
-                </div>
-                <div id="transfer-suggestions-box" style="margin-top: 25px; border-top: 2px dashed #ddd; padding-top: 15px;">
-                    <h4 style="color: #1e3c72; margin-bottom: 12px;"><i class="fas fa-hand-holding-usd"></i> 最終找數方案 (已折算港幣)</h4>
-                    <ul id="suggestion-list" style="list-style: none; padding: 0;"></ul>
                 </div>
             </div>
 
@@ -1674,22 +1779,26 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 🔧 處理日文發音 ===
+        // === 3. 🔧 處理日文發音 (優先系統發音 -> 失敗轉Google) ===
         function playAudio(text) {
+            // 嘗試使用系統語音
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
+                window.speechSynthesis.cancel(); // 停止舊的
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ja-JP'; 
                 utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
+            } else {
+                // 系統不支援則用 Google Translate
+                const encodedText = encodeURIComponent(text);
+                const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
+                window.open(url, '_blank');
             }
         }
 
-        // === 4. 數簿連線與找數邏輯 ===
+        // === 4. 數簿連線邏輯 ===
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
-        const JPY_TO_HKD = 0.0492; // 100 JPY = 4.92 HKD
         let isFetching = false;
-
         async function fetchRealTimeData() {
             if (isFetching) return;
             isFetching = true;
@@ -1745,60 +1854,7 @@
                 `;
                 list.appendChild(li);
             });
-
-            // 觸發分帳計算 
-            calculateSettlement(data);
         }
-
-        function calculateSettlement(data) {
-            const members = ['YO姐', 'YWS', 'Yela', 'Tony', 'Carol', 'I人'];
-            let balances = {};
-            members.forEach(m => balances[m] = { HKD: 0, JPY: 0 });
-
-            data.forEach(row => {
-                const amount = parseFloat(row.amount) || 0;
-                const currency = row.currency;
-                const payer = row.payer;
-                let involved = [];
-                if (!row.beneficiaries || row.beneficiaries.trim() === '全員' || row.beneficiaries.trim() === '') {
-                    involved = [...members];
-                } else {
-                    involved = row.beneficiaries.split(/[,，\s]+/).filter(n => members.includes(n.trim())).map(n => n.trim());
-                }
-                if (involved.length > 0) {
-                    const perPerson = amount / involved.length;
-                    involved.forEach(m => { balances[m][currency] += perPerson; });
-                    if (balances[payer]) { balances[payer][currency] -= amount; }
-                }
-            });
-
-            const tbody = document.getElementById('settlement-list');
-            tbody.innerHTML = '';
-            let summary = [];
-            members.forEach(m => {
-                const h = balances[m].HKD, j = balances[m].JPY;
-                const totalHkd = h + (j * JPY_TO_HKD);
-                summary.push({ name: m, balance: totalHkd });
-                tbody.innerHTML += `<tr><td><strong>${m}</strong></td><td style="text-align:right; font-weight:bold; color: ${h > 0 ? '#c62828' : '#2e7d32'}">${h > 0 ? '+' : ''}${h.toFixed(1)}</td><td style="text-align:right; font-weight:bold; color: ${j > 0 ? '#c62828' : '#2e7d32'}">${j > 0 ? '+' : ''}${Math.round(j)}</td></tr>`;
-            });
-            generateSuggestions(summary);
-        }
-
-        function generateSuggestions(summary) {
-            const list = document.getElementById('suggestion-list');
-            list.innerHTML = '';
-            let debtors = summary.filter(x => x.balance > 0.5).sort((a, b) => b.balance - a.balance);
-            let creditors = summary.filter(x => x.balance < -0.5).sort((a, b) => a.balance - b.balance);
-            if (debtors.length === 0) { list.innerHTML = '<li style="text-align:center;">✅ 帳目已平</li>'; return; }
-            let i = 0, j = 0;
-            while (i < debtors.length && j < creditors.length) {
-                let payAmount = Math.min(debtors[i].balance, Math.abs(creditors[j].balance));
-                list.innerHTML += `<li style="margin-bottom:8px; padding:12px; background:#f8f9fa; border-radius:10px; border-left:4px solid #1e3c72; font-size:0.95rem;">💸 <strong>${debtors[i].name}</strong> ➔ 找數給 <strong>${creditors[j].name}</strong><br><span style="color:#d32f2f; font-weight:900; font-size:1.1rem; margin-left:25px;">$${payAmount.toFixed(1)} HKD</span></li>`;
-                debtors[i].balance -= payAmount; creditors[j].balance += payAmount;
-                if (debtors[i].balance < 0.5) i++; if (Math.abs(creditors[j].balance) < 0.5) j++;
-            }
-        }
-
         setInterval(fetchRealTimeData, 4000);
         fetchRealTimeData();
 
@@ -1808,8 +1864,12 @@
             checkboxes.forEach((box, index) => {
                 const storageKey = 'packing_chk_' + index;
                 const savedState = localStorage.getItem(storageKey);
-                if (savedState === 'true') { box.checked = true; }
-                box.addEventListener('change', function () { localStorage.setItem(storageKey, this.checked); });
+                if (savedState === 'true') {
+                    box.checked = true;
+                }
+                box.addEventListener('change', function () {
+                    localStorage.setItem(storageKey, this.checked);
+                });
             });
         }
         initPackingList();
