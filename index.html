@@ -1480,10 +1480,10 @@
         }
         initPackingList();
 
-// === 6. 結算邏輯 (修復版 V2) ===
+// === 6. 結算邏輯 (V3 最終版 - 修正 YO姐 大小寫) ===
 function calculateSettlement() {
-    // 1. 定義成員名單 (必須同 Sheet 入面既名一樣)
-    const members = ['Yo姐', 'YWS', 'Tony', 'Yela', 'Carol', 'I人'];
+    // 1. 定義成員名單 (已修正 YO姐)
+    const members = ['YO姐', 'YWS', 'Tony', 'Yela', 'Carol', 'I人'];
     
     // 2. 初始化帳戶
     let balances = {};
@@ -1498,71 +1498,65 @@ function calculateSettlement() {
     }
 
     // 4. 逐條數計
-    let unknownPayers = new Set(); // 用黎記錄錯名
+    let unknownPayers = new Set(); 
 
     globalTransactionData.forEach(row => {
-        // --- 資料清理 (重要！) ---
-        // 確保移除前後空格
+        // 資料清理
         let payer = row.payer ? row.payer.toString().trim() : "";
         let amount = parseFloat(row.amount) || 0;
         let currency = row.currency;
         let beneficiariesRaw = row.beneficiaries ? row.beneficiaries.toString().trim() : "全員";
 
-        // 如果金額係 0，跳過
         if (amount === 0) return;
 
-        // --- A. 處理付款人 (Payer) ---
-        // 檢查付款人名單係咪正確
+        // --- A. 智能識別付款人 (已加入大小寫兼容) ---
         if (!balances[payer]) {
-            // 嘗試模糊匹配 (例如 Sheet 填左 "Yo"，但我地係 "Yo姐")
-            // 呢度做個簡單Mapping，如果無就報錯
-            if (payer.includes("Yo")) payer = "Yo姐";
-            else if (payer.toLowerCase().includes("yws")) payer = "YWS";
+            // 轉做大寫黎 Check，咁寫 yo/Yo/YO 都會認到
+            let payerUpper = payer.toUpperCase();
+            
+            if (payerUpper.includes("YO")) payer = "YO姐";
+            else if (payerUpper.includes("YWS")) payer = "YWS";
             else if (payer.includes("Tony")) payer = "Tony";
             else if (payer.includes("Yela")) payer = "Yela";
             else if (payer.includes("Carol")) payer = "Carol";
-            else if (payer.includes("I人") || payer.toLowerCase().includes("bf")) payer = "I人";
+            else if (payer.includes("I人") || payerUpper.includes("BF")) payer = "I人";
             else {
-                unknownPayers.add(payer); // 找不到此人，記錄低
-                return; // 跳過這一行，避免數錯
+                unknownPayers.add(payer); // 真係搵唔到
+                return; 
             }
         }
 
-        // 付款人先扣數 (代表佢付出左)
+        // 付款人扣數
         if (currency === 'HKD') balances[payer].hkd -= amount;
         if (currency === 'JPY') balances[payer].jpy -= amount;
 
-        // --- B. 處理受益人 (Involved) ---
+        // --- B. 處理受益人 ---
         let involvedMembers = [];
-        
-        // 判斷是否 "全員"
         if (beneficiariesRaw === "" || beneficiariesRaw.includes("全員") || beneficiariesRaw.includes("All")) {
             involvedMembers = members; 
         } else {
-            // 智能分割：支援 逗號(,) 全形逗號(，) 或 空格
             let rawNames = beneficiariesRaw.split(/[,，\s]+/);
-            
-            // 過濾並匹配正確名單
             involvedMembers = members.filter(m => {
-                return rawNames.some(raw => raw.includes(m) || m.includes(raw));
+                // 這裡也要支援 YO姐 的模糊對應
+                return rawNames.some(raw => {
+                    if (raw.toUpperCase().includes("YO") && m === "YO姐") return true;
+                    return raw.includes(m) || m.includes(raw);
+                });
             });
-
-            // 防呆：如果分割完無人 (例如打錯字)，當全員算
             if (involvedMembers.length === 0) involvedMembers = members;
         }
 
         // --- C. 分攤金額 ---
         let splitAmount = amount / involvedMembers.length;
-
         involvedMembers.forEach(m => {
             if (currency === 'HKD') balances[m].hkd += splitAmount;
             if (currency === 'JPY') balances[m].jpy += splitAmount;
         });
     });
 
-    // 如果有不明付款人，彈出警告
+    // 錯誤提示
     if (unknownPayers.size > 0) {
-        alert("⚠️ 發現不明付款人名單，請檢查 Google Sheet:\n" + Array.from(unknownPayers).join(", "));
+        alert("⚠️ 發現不明付款人:\n" + Array.from(unknownPayers).join(", "));
     }
 
     // 5. 渲染結果
@@ -1574,16 +1568,11 @@ function calculateSettlement() {
         const jpyVal = balances[m].jpy;
 
         const formatMoney = (val, symbol) => {
-            // 容錯範圍 (JavaScript 浮點數運算會有 0.0000001 誤差)
             if (Math.abs(val) < 1) return '<span style="color:#ccc;">-</span>';
-
-            let color = val > 0 ? '#d32f2f' : '#2e7d32'; // 紅色比錢，綠色收錢
+            let color = val > 0 ? '#d32f2f' : '#2e7d32';
             let prefix = val > 0 ? '付 ' : '收 ';
             let absText = Math.abs(val).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-            
-            return `<span style="color:${color}; font-weight:bold;">
-                        ${prefix} ${symbol}${absText}
-                    </span>`;
+            return `<span style="color:${color}; font-weight:bold;">${prefix} ${symbol}${absText}</span>`;
         };
 
         const tr = document.createElement('tr');
