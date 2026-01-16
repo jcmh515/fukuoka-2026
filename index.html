@@ -12,7 +12,6 @@
     <meta name="theme-color" content="#1e3c72">
     
     <link rel="manifest" href="manifest.json">
-
     <link rel="preload" as="image" href="bg.jpg">
 
     <link rel="apple-touch-icon" href="https://as1.ftcdn.net/jpg/04/08/92/94/1000_F_408929460_bhxuyi9Bt9pkK9VIABp2yQTXNM1MgKf7.jpg">
@@ -42,55 +41,37 @@
             padding-bottom: 90px;
         }
 
-        /* === 🔧 背景層 (這就是你的 Loading 畫面) === */
+        /* === 🔧 背景層 (保留原有背景功能) === */
         #bg-layer {
             position: fixed;
             top: -10vh;
             left: 0;
             width: 100vw;
-            height: 120vh; /* 故意做大一點防止露底 */
+            height: 120vh;
             z-index: -999;
-            
-            /* ⚠️ 圖片 */
             background-image: url('bg.jpg'); 
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
-            
             background-attachment: fixed; 
-
-            /* 50% 透明白色濾鏡 */
             background-color: rgba(255, 255, 255, 0.5); 
             background-blend-mode: overlay;
-            
             filter: none;
             transform: none;
-            
             pointer-events: none;
-            
-            /* 背景層不設動畫，一打開就係度！ */
             opacity: 1; 
         }
 
         /* === ✨ 開場動畫設定 === */
         @keyframes startupFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px); /* 內容由下升上 */
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* 將動畫套用到 Header, Main, Bottom-Nav 
-           邏輯：一開始 opacity: 0 (隱形)，等你睇 1秒 背景之後，先慢慢浮現。
-        */
         header, main, .bottom-nav {
-            opacity: 0; /* 初始狀態：隱藏 */
-            animation: startupFadeIn 0.8s ease-out forwards; /* 浮現動畫 0.8秒 */
-            animation-delay: 3.0s; /* ⏳ 延遲 3秒 執行 (這 1秒就是你的背景展示時間) */
+            opacity: 0; 
+            animation: startupFadeIn 0.8s ease-out forwards; 
+            animation-delay: 3.0s;
         }
 
         /* === 卡片樣式 === */
@@ -171,9 +152,7 @@
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(360deg);
-            }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
         /* === Main Content === */
@@ -185,13 +164,8 @@
             z-index: 1;
         }
 
-        .hidden-section {
-            display: none;
-        }
-
-        .active-section {
-            display: block;
-        }
+        .hidden-section { display: none; }
+        .active-section { display: block; }
 
         .section-title {
             text-align: center;
@@ -212,7 +186,7 @@
             font-weight: 600;
         }
         
-        /* === 發音按鈕 === */
+        /* === 發音按鈕樣式 (保留) === */
         .btn-speak {
             display: inline-block;
             margin-left: 8px;
@@ -234,11 +208,9 @@
             background-color: #bbdefb;
         }
 
-        .btn-speak i {
-            font-size: 0.8rem;
-        }
+        .btn-speak i { font-size: 0.8rem; }
 
-        /* === V20 新增樣式 (實時記帳用) === */
+        /* === 記帳樣式 === */
         .stats-container {
             display: flex;
             gap: 10px;
@@ -256,30 +228,12 @@
             backdrop-filter: blur(5px);
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
+        .stat-label { font-size: 0.8rem; opacity: 0.8; }
+        .stat-val { font-size: 1.4rem; font-weight: bold; margin-top: 5px; }
+        .stat-jpy { color: #fbc2eb; }
+        .stat-hkd { color: #4facfe; }
 
-        .stat-val {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .stat-jpy {
-            color: #fbc2eb;
-        }
-
-        .stat-hkd {
-            color: #4facfe;
-        }
-
-        .live-list {
-            list-style: none;
-            padding: 0;
-        }
-
+        .live-list { list-style: none; padding: 0; }
         .live-item {
             display: flex;
             justify-content: space-between;
@@ -289,50 +243,19 @@
             animation: flash 1s;
         }
 
-        .live-info {
-            flex: 1;
-        }
-
-        .live-title {
-            font-weight: bold;
-            font-size: 1rem;
-            color: #333;
-            display: block;
-        }
-
-        .live-meta {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .live-amt {
-            font-weight: bold;
-            color: #1e3c72;
-            font-size: 1rem;
-        }
-
-        .spinner {
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 0.9rem;
-        }
+        .live-info { flex: 1; }
+        .live-title { font-weight: bold; font-size: 1rem; color: #333; display: block; }
+        .live-meta { font-size: 0.8rem; color: #888; }
+        .live-amt { font-weight: bold; color: #1e3c72; font-size: 1rem; }
+        .spinner { text-align: center; padding: 20px; color: #999; font-size: 0.9rem; }
 
         @keyframes flash {
-            0% {
-                background-color: #e3f2fd;
-            }
-
-            100% {
-                background-color: transparent;
-            }
+            0% { background-color: #e3f2fd; }
+            100% { background-color: transparent; }
         }
 
         /* === Home Styles === */
-        .intro-card {
-            text-align: center;
-        }
-
+        .intro-card { text-align: center; }
         .intro-card h2 {
             color: #1e3c72;
             margin-bottom: 5px;
@@ -362,19 +285,9 @@
             line-height: 1.8;
         }
 
-        .vibes-box .quote {
-            display: block;
-            font-size: 1.1rem;
-            margin: 5px 0;
-        }
+        .vibes-box .quote { display: block; font-size: 1.1rem; margin: 5px 0; }
 
-        .member-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
+        .member-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
         .member-item {
             background: rgba(241, 243, 245, 0.9);
             padding: 8px 14px;
@@ -384,21 +297,10 @@
             display: flex;
             align-items: center;
         }
+        .member-item i { margin-right: 6px; }
+        .break { flex-basis: 100%; height: 0; }
 
-        .member-item i {
-            margin-right: 6px;
-        }
-
-        .break {
-            flex-basis: 100%;
-            height: 0;
-        }
-
-        .summary-list {
-            list-style: none;
-            padding: 0;
-        }
-
+        .summary-list { list-style: none; padding: 0; }
         .summary-list li {
             display: flex;
             align-items: start;
@@ -421,10 +323,7 @@
         }
 
         /* === Flight Cards === */
-        .flight-card {
-            border-left: 5px solid #1e3c72;
-        }
-
+        .flight-card { border-left: 5px solid #1e3c72; }
         .flight-header {
             display: flex;
             justify-content: space-between;
@@ -432,13 +331,8 @@
             margin-bottom: 15px;
             border-bottom: none;
         }
-
-        .flight-header h3 {
-            margin: 0;
-            border: none;
-            font-size: 1.1rem;
-        }
-
+        .flight-header h3 { margin: 0; border: none; font-size: 1.1rem; }
+        
         .badge {
             font-size: 0.7rem;
             padding: 4px 8px;
@@ -447,27 +341,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .badge.cx { background: #006b5e; color: white; }
+        .badge.lcc { background: #ff9800; color: white; }
+        .badge.deadline { background: #c62828; color: white; }
 
-        .badge.cx {
-            background: #006b5e;
-            color: white;
-        }
-
-        .badge.lcc {
-            background: #ff9800;
-            color: white;
-        }
-
-        .badge.deadline {
-            background: #c62828;
-            color: white;
-        }
-
-        .flight-route {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
+        .flight-route { font-size: 1rem; line-height: 1.6; }
         .leg-time {
             font-size: 0.8rem;
             color: #888;
@@ -476,29 +354,12 @@
             font-weight: 600;
         }
 
-        .highlight {
-            color: #d32f2f;
-            font-weight: bold;
-        }
-
-        .divider {
-            height: 1px;
-            background: #eee;
-            margin: 12px 0;
-        }
-
-        small {
-            color: #888;
-            font-size: 0.85rem;
-            display: block;
-            margin-top: 4px;
-        }
+        .highlight { color: #d32f2f; font-weight: bold; }
+        .divider { height: 1px; background: #eee; margin: 12px 0; }
+        small { color: #888; font-size: 0.85rem; display: block; margin-top: 4px; }
 
         /* === Itinerary & Food Cards === */
-        .day-block {
-            margin-bottom: 30px;
-        }
-
+        .day-block { margin-bottom: 30px; }
         .day-header {
             background: rgba(30, 60, 114, 0.85);
             color: white;
@@ -516,11 +377,7 @@
             padding-left: 25px;
         }
 
-        .event {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
+        .event { margin-bottom: 25px; position: relative; }
         .event::before {
             content: '';
             position: absolute;
@@ -551,44 +408,15 @@
             backdrop-filter: blur(5px);
         }
 
-        .note {
-            font-size: 0.85rem;
-            color: #666;
-            display: block;
-            margin-top: 4px;
-        }
+        .note { font-size: 0.85rem; color: #666; display: block; margin-top: 4px; }
+        .highlight-box .desc { border-left: 4px solid #e91e63; background: rgba(255, 240, 245, 0.9); }
 
-        .highlight-box .desc {
-            border-left: 4px solid #e91e63;
-            background: rgba(255, 240, 245, 0.9);
-        }
+        .shop-card { border-left: 5px solid #9c27b0; background: rgba(243, 229, 245, 0.75); }
+        .shop-card h3 { color: #7b1fa2; border-bottom: 2px solid #e1bee7; }
 
-        .shop-card {
-            border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.75);
-        }
-
-        .shop-card h3 {
-            color: #7b1fa2;
-            border-bottom: 2px solid #e1bee7;
-        }
-
-        .food-card {
-            border-left: 5px solid #ff9800;
-        }
-
-        .food-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 10px;
-        }
-
-        .food-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #333;
-        }
+        .food-card { border-left: 5px solid #ff9800; }
+        .food-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .food-title { font-weight: bold; font-size: 1.1rem; color: #333; }
 
         .res-badge {
             padding: 3px 8px;
@@ -599,386 +427,136 @@
             white-space: nowrap;
             margin-left: 10px;
         }
+        .res-ok { background: #4caf50; }
+        .res-no { background: #f44336; }
 
-        .res-ok {
-            background: #4caf50;
-        }
-
-        .res-no {
-            background: #f44336;
-        }
-
-        .food-info {
-            font-size: 0.9rem;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .food-info i {
-            width: 20px;
-            color: #ff9800;
-            text-align: center;
-            margin-right: 5px;
-        }
+        .food-info { font-size: 0.9rem; color: #555; line-height: 1.6; }
+        .food-info i { width: 20px; color: #ff9800; text-align: center; margin-right: 5px; }
 
         /* === Ski & Packing === */
-        .warning-card {
-            background: rgba(255, 245, 245, 0.75);
-            border-left: 5px solid #c62828;
-        }
+        .warning-card { background: rgba(255, 245, 245, 0.75); border-left: 5px solid #c62828; }
+        .warning-card h3 { color: #c62828; border-color: #ffcdd2; }
 
-        .warning-card h3 {
-            color: #c62828;
-            border-color: #ffcdd2;
-        }
+        .outfit-card { border-left: 5px solid #9c27b0; background: rgba(243, 229, 245, 0.75); }
+        .outfit-card h3 { color: #7b1fa2; border-bottom: 2px solid #e1bee7; }
 
-        .outfit-card {
-            border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.75);
-        }
+        .tips-card-a { background: rgba(232, 245, 233, 0.75); border-left: 5px solid #2e7d32; }
+        .tips-card-a h3 { color: #1b5e20; border-bottom: 2px solid #c8e6c9; }
 
-        .outfit-card h3 {
-            color: #7b1fa2;
-            border-bottom: 2px solid #e1bee7;
-        }
+        .tips-card-b { background: rgba(227, 242, 253, 0.75); border-left: 5px solid #1565c0; }
+        .tips-card-b h3 { color: #0d47a1; border-bottom: 2px solid #bbdefb; }
 
-        .tips-card-a {
-            background: rgba(232, 245, 233, 0.75);
-            border-left: 5px solid #2e7d32;
-        }
+        .language-card { background: rgba(255, 243, 224, 0.75); border-left: 5px solid #ef6c00; }
+        .language-card h3 { color: #e65100; border-bottom: 2px solid #ffe0b2; }
 
-        .tips-card-a h3 {
-            color: #1b5e20;
-            border-bottom: 2px solid #c8e6c9;
-        }
-
-        .tips-card-b {
-            background: rgba(227, 242, 253, 0.75);
-            border-left: 5px solid #1565c0;
-        }
-
-        .tips-card-b h3 {
-            color: #0d47a1;
-            border-bottom: 2px solid #bbdefb;
-        }
-
-        .language-card {
-            background: rgba(255, 243, 224, 0.75);
-            border-left: 5px solid #ef6c00;
-        }
-
-        .language-card h3 {
-            color: #e65100;
-            border-bottom: 2px solid #ffe0b2;
-        }
-
-        .weather-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
+        .weather-container { display: flex; gap: 10px; margin-bottom: 10px; }
         .weather-box {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-            backdrop-filter: blur(5px);
+            flex: 1; padding: 10px; border-radius: 10px; color: white; text-align: center; backdrop-filter: blur(5px);
         }
+        .weather-city { background: linear-gradient(135deg, rgba(79, 172, 254, 0.8), rgba(0, 242, 254, 0.8)); }
+        .weather-ski { background: linear-gradient(135deg, rgba(161, 140, 209, 0.8), rgba(251, 194, 235, 0.8)); }
 
-        .weather-city {
-            background: linear-gradient(135deg, rgba(79, 172, 254, 0.8), rgba(0, 242, 254, 0.8));
-        }
-
-        .weather-ski {
-            background: linear-gradient(135deg, rgba(161, 140, 209, 0.8), rgba(251, 194, 235, 0.8));
-        }
-
-        .weather-box h4 {
-            margin: 0 0 5px 0;
-            font-size: 1rem;
-        }
-
-        .weather-box .temp {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+        .weather-box h4 { margin: 0 0 5px 0; font-size: 1rem; }
+        .weather-box .temp { font-size: 1.2rem; font-weight: bold; }
 
         .btn-jma {
-            display: block;
-            width: 100%;
-            background: rgba(255,255,255,0.8);
-            border: none;
-            color: #1e3c72;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 1rem;
-            margin-top: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            transition: transform 0.1s;
+            display: block; width: 100%; background: rgba(255,255,255,0.8); border: none; color: #1e3c72;
+            text-align: center; padding: 12px; border-radius: 8px; text-decoration: none;
+            font-weight: 800; font-size: 1rem; margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); transition: transform 0.1s;
         }
+        .btn-jma:active { transform: scale(0.98); }
 
-        .btn-jma:active {
-            transform: scale(0.98);
-        }
+        .outfit-list { padding-left: 5px; list-style: none; }
+        .outfit-list li { margin-bottom: 12px; }
+        .outfit-list strong { color: #1e3c72; }
 
-        .outfit-list {
-            padding-left: 5px;
-            list-style: none;
-        }
-
-        .outfit-list li {
-            margin-bottom: 12px;
-        }
-
-        .outfit-list strong {
-            color: #1e3c72;
-        }
-
-        .alert-card {
-            border: 2px solid #c62828;
-            background: rgba(255, 255, 255, 0.8);
-        }
+        .alert-card { border: 2px solid #c62828; background: rgba(255, 255, 255, 0.8); }
 
         .checklist li {
-            list-style: none;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px dashed #bbb;
-            padding-bottom: 8px;
+            list-style: none; margin-bottom: 12px; display: flex; align-items: center;
+            border-bottom: 1px dashed #bbb; padding-bottom: 8px;
         }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist input { margin-right: 12px; transform: scale(1.3); accent-color: #1e3c72; }
 
-        .checklist li:last-child {
-            border-bottom: none;
-        }
-
-        .checklist input {
-            margin-right: 12px;
-            transform: scale(1.3);
-            accent-color: #1e3c72;
-        }
-
-        .check-card[style*="2196f3"] {
-            border-left: 5px solid #2196f3;
-            background: rgba(227, 242, 253, 0.75);
-        }
-
-        .check-card[style*="e91e63"] {
-            border-left: 5px solid #e91e63;
-            background: rgba(252, 228, 236, 0.75);
-        }
-
-        .check-card[style*="009688"] {
-            border-left: 5px solid #009688;
-            background: rgba(224, 242, 241, 0.75);
-        }
-
-        .check-card[style*="3f51b5"] {
-            border-left: 5px solid #3f51b5;
-            background: rgba(232, 234, 246, 0.75);
-        }
-
-        .check-card[style*="9c27b0"] {
-            border-left: 5px solid #9c27b0;
-            background: rgba(243, 229, 245, 0.75);
-        }
-
-        .check-card[style*="fbc02d"] {
-            border-left: 5px solid #fbc02d;
-            background: rgba(255, 249, 196, 0.75);
-        }
-        
-        .check-card[style*="ff4081"] {
-            border-left: 5px solid #ff4081;
-            background: rgba(255, 240, 246, 0.75);
-        }
+        .check-card[style*="2196f3"] { border-left: 5px solid #2196f3; background: rgba(227, 242, 253, 0.75); }
+        .check-card[style*="e91e63"] { border-left: 5px solid #e91e63; background: rgba(252, 228, 236, 0.75); }
+        .check-card[style*="009688"] { border-left: 5px solid #009688; background: rgba(224, 242, 241, 0.75); }
+        .check-card[style*="3f51b5"] { border-left: 5px solid #3f51b5; background: rgba(232, 234, 246, 0.75); }
+        .check-card[style*="9c27b0"] { border-left: 5px solid #9c27b0; background: rgba(243, 229, 245, 0.75); }
+        .check-card[style*="fbc02d"] { border-left: 5px solid #fbc02d; background: rgba(255, 249, 196, 0.75); }
+        .check-card[style*="ff4081"] { border-left: 5px solid #ff4081; background: rgba(255, 240, 246, 0.75); }
 
         /* === Accounts / Form === */
         .form-container {
-            position: relative;
-            width: 100%;
-            height: 420px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            border-radius: 12px;
-            border: 1px solid #ddd;
-            background: #fff;
+            position: relative; width: 100%; height: 420px; overflow-y: scroll; overflow-x: hidden;
+            border-radius: 12px; border: 1px solid #ddd; background: #fff;
         }
-
         .form-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 118%;
-            height: 150%;
-            border: 0;
-            transform: scale(0.85);
-            transform-origin: top left;
+            position: absolute; top: 0; left: 0; width: 118%; height: 150%;
+            border: 0; transform: scale(0.85); transform-origin: top left;
         }
 
-        .accounts-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
+        .accounts-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         .accounts-table th {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 2px solid #eee;
-            color: #888;
-            font-size: 0.8rem;
+            text-align: left; padding: 8px; border-bottom: 2px solid #eee; color: #888; font-size: 0.8rem;
         }
+        .accounts-table td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; }
 
-        .accounts-table td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .price-tag {
-            font-weight: bold;
-            color: #1e3c72;
-        }
-
+        .price-tag { font-weight: bold; color: #1e3c72; }
         .payer-badge {
-            background: #e0f2f1;
-            color: #00695c;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
+            background: #e0f2f1; color: #00695c; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;
         }
 
         /* === Bookings === */
-        .booking-group {
-            margin-bottom: 30px;
-        }
-
+        .booking-group { margin-bottom: 30px; }
         .booking-group h3 {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 12px;
-            padding-left: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+            font-size: 1rem; color: #555; margin-bottom: 12px; padding-left: 5px;
+            text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 1px 1px rgba(255,255,255,0.8);
         }
 
         .booking-item {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(255,255,255,0.4);
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            background: rgba(255, 255, 255, 0.85); padding: 15px; border-radius: 12px; margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03); border: 1px solid rgba(255,255,255,0.4);
             transition: transform 0.1s;
         }
-
-        .booking-item:active {
-            transform: scale(0.99);
-        }
-
-        .booking-item .label {
-            font-weight: 600;
-            font-size: 0.95rem;
-            width: 100%;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
+        .booking-item:active { transform: scale(0.99); }
+        
+        .booking-item .label { font-weight: 600; font-size: 0.95rem; width: 100%; margin-bottom: 8px; color: #333; }
         .booking-item .code {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            background: rgba(241, 243, 245, 0.9);
-            padding: 6px 10px;
-            border-radius: 6px;
-            color: #1e3c72;
-            letter-spacing: 0.5px;
-            border: 1px solid #e9ecef;
+            font-family: 'Courier New', monospace; font-weight: bold;
+            background: rgba(241, 243, 245, 0.9); padding: 6px 10px; border-radius: 6px;
+            color: #1e3c72; letter-spacing: 0.5px; border: 1px solid #e9ecef;
         }
-
         .booking-item small {
-            width: 100%;
-            display: block;
-            margin-top: 6px;
-            color: #888;
-            font-size: 0.8rem;
-            word-break: break-all;
+            width: 100%; display: block; margin-top: 6px; color: #888; font-size: 0.8rem; word-break: break-all;
         }
 
         /* === Bottom Nav (Glass) === */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            
-            /* 導航欄透明度 */
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 15px;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
-            z-index: 999;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            display: flex; justify-content: space-around; padding: 10px 0 15px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05); z-index: 999;
             border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nav-btn {
-            background: none;
-            border: none;
-            width: 12.5%;
-            font-size: 0.6rem;
-            color: #999;
-            cursor: pointer;
-            transition: all 0.2s;
-            padding: 0;
+            background: none; border: none; width: 12.5%; font-size: 0.6rem; color: #999;
+            cursor: pointer; transition: all 0.2s; padding: 0;
         }
-
-        .nav-btn i {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-            display: block;
-            transition: transform 0.2s;
-        }
-
-        .nav-btn.active {
-            color: #1e3c72;
-            font-weight: bold;
-        }
-
-        .nav-btn.active i {
-            transform: translateY(-3px);
-            color: #1e3c72;
-        }
+        .nav-btn i { font-size: 1.1rem; margin-bottom: 4px; display: block; transition: transform 0.2s; }
+        .nav-btn.active { color: #1e3c72; font-weight: bold; }
+        .nav-btn.active i { transform: translateY(-3px); color: #1e3c72; }
 
         .nav-btn-link {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: inline-block; background: #4CAF50; color: white; padding: 5px 12px;
+            border-radius: 20px; text-decoration: none; font-size: 0.85rem; margin-top: 8px;
+            font-weight: bold; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-
-        .nav-btn-link:hover {
-            background: #45a049;
-        }
+        .nav-btn-link:hover { background: #45a049; }
     </style>
 </head>
 
@@ -1011,8 +589,7 @@
             <div class="card member-card">
                 <h3>👥 成員名單</h3>
                 <div class="member-list">
-                    <div class="member-item"
-                        style="background:#e3f2fd; color:#0d47a1; border: 1px solid #90caf9; font-weight:bold;">
+                    <div class="member-item" style="background:#e3f2fd; color:#0d47a1; border: 1px solid #90caf9; font-weight:bold;">
                         <i class="fas fa-crown"></i> YWS (freerider)
                     </div>
                     <div class="member-item" style="background:#f3e5f5; color:#6a1b9a; border: 1px solid #ce93d8;">
@@ -1410,7 +987,7 @@
             </div>
 
             <div class="card language-card">
-                <h3>🗣️ 教練會講咩？ (點擊發音)</h3>
+                <h3>🗣️ 教練會講咩？ (點擊發音) (保留功能)</h3>
                 <p style="margin-bottom:10px; font-size:0.9rem;">教練講呢啲，禁個喇叭掣聽發音：</p>
                 <table style="width:100%; font-size:0.85rem; border-collapse: collapse;">
                     <tr style="border-bottom:2px solid #ffcc80;">
@@ -1601,6 +1178,30 @@
                 </div>
             </div>
 
+            <div class="card" style="border-left: 5px solid #009688;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h3>⚖️ 夾錢結算機</h3>
+                    <button onclick="calculateSettlement()" style="background:#009688; color:white; border:none; padding:5px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
+                        <i class="fas fa-calculator"></i> 立即計算
+                    </button>
+                </div>
+                <p style="font-size:0.8rem; color:#666; margin-bottom:10px;">
+                    邏輯：<span style="color:#d32f2f; font-weight:bold;">紅色</span>代表要拎錢出黎，<span style="color:#2e7d32; font-weight:bold;">綠色</span>代表收錢返黎。
+                </p>
+                <div id="settlement-result" style="display:none; animation: startupFadeIn 0.5s;">
+                    <table class="accounts-table">
+                        <thead>
+                            <tr>
+                                <th>成員</th>
+                                <th>HKD (港幣)</th>
+                                <th>JPY (日圓)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="settlement-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
             <div style="text-align:center; margin-bottom:20px;">
                 <a href="https://docs.google.com/spreadsheets/d/1cUoEvhlABWVYpxsjMd262QR4mf7tZirp4dW0kztXmWo/edit"
                     target="_blank"
@@ -1779,17 +1380,15 @@
         }
         setInterval(createSnowflake, 200);
 
-        // === 3. 🔧 處理日文發音 (優先系統發音 -> 失敗轉Google) ===
+        // === 3. 🔧 處理日文發音 (優先系統發音 -> 失敗轉Google) (保留功能) ===
         function playAudio(text) {
-            // 嘗試使用系統語音
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // 停止舊的
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'ja-JP'; 
                 utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
             } else {
-                // 系統不支援則用 Google Translate
                 const encodedText = encodeURIComponent(text);
                 const url = `https://translate.google.com/m?sl=ja&tl=zh-TW&hl=zh-TW&q=${encodedText}`;
                 window.open(url, '_blank');
@@ -1798,7 +1397,11 @@
 
         // === 4. 數簿連線邏輯 ===
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwR4H8wyBkYgjJ7vlnTFxngDygZYOBoRE1qQI4TF6PUzahgk1jeEE7BsHiYQokrDr9x/exec";
+        
+        // ✨ 新增功能: 全域變數儲存數據
         let isFetching = false;
+        let globalTransactionData = []; 
+
         async function fetchRealTimeData() {
             if (isFetching) return;
             isFetching = true;
@@ -1809,6 +1412,9 @@
                 const data = await response.json();
 
                 if (data && Array.isArray(data)) {
+                    // ✨ 新增功能: 儲存數據
+                    globalTransactionData = data; 
+                    
                     updateUI(data);
                     document.getElementById('loading-spinner').style.display = 'none';
                     badge.innerHTML = '剛剛更新';
@@ -1873,6 +1479,124 @@
             });
         }
         initPackingList();
+
+// === 6. 結算邏輯 (修復版 V2) ===
+function calculateSettlement() {
+    // 1. 定義成員名單 (必須同 Sheet 入面既名一樣)
+    const members = ['Yo姐', 'YWS', 'Tony', 'Yela', 'Carol', 'I人'];
+    
+    // 2. 初始化帳戶
+    let balances = {};
+    members.forEach(m => {
+        balances[m] = { hkd: 0, jpy: 0 };
+    });
+
+    // 3. 檢查數據
+    if (!globalTransactionData || globalTransactionData.length === 0) {
+        alert("未有數據，請稍等同步完成！");
+        return;
+    }
+
+    // 4. 逐條數計
+    let unknownPayers = new Set(); // 用黎記錄錯名
+
+    globalTransactionData.forEach(row => {
+        // --- 資料清理 (重要！) ---
+        // 確保移除前後空格
+        let payer = row.payer ? row.payer.toString().trim() : "";
+        let amount = parseFloat(row.amount) || 0;
+        let currency = row.currency;
+        let beneficiariesRaw = row.beneficiaries ? row.beneficiaries.toString().trim() : "全員";
+
+        // 如果金額係 0，跳過
+        if (amount === 0) return;
+
+        // --- A. 處理付款人 (Payer) ---
+        // 檢查付款人名單係咪正確
+        if (!balances[payer]) {
+            // 嘗試模糊匹配 (例如 Sheet 填左 "Yo"，但我地係 "Yo姐")
+            // 呢度做個簡單Mapping，如果無就報錯
+            if (payer.includes("Yo")) payer = "Yo姐";
+            else if (payer.toLowerCase().includes("yws")) payer = "YWS";
+            else if (payer.includes("Tony")) payer = "Tony";
+            else if (payer.includes("Yela")) payer = "Yela";
+            else if (payer.includes("Carol")) payer = "Carol";
+            else if (payer.includes("I人") || payer.toLowerCase().includes("bf")) payer = "I人";
+            else {
+                unknownPayers.add(payer); // 找不到此人，記錄低
+                return; // 跳過這一行，避免數錯
+            }
+        }
+
+        // 付款人先扣數 (代表佢付出左)
+        if (currency === 'HKD') balances[payer].hkd -= amount;
+        if (currency === 'JPY') balances[payer].jpy -= amount;
+
+        // --- B. 處理受益人 (Involved) ---
+        let involvedMembers = [];
+        
+        // 判斷是否 "全員"
+        if (beneficiariesRaw === "" || beneficiariesRaw.includes("全員") || beneficiariesRaw.includes("All")) {
+            involvedMembers = members; 
+        } else {
+            // 智能分割：支援 逗號(,) 全形逗號(，) 或 空格
+            let rawNames = beneficiariesRaw.split(/[,，\s]+/);
+            
+            // 過濾並匹配正確名單
+            involvedMembers = members.filter(m => {
+                return rawNames.some(raw => raw.includes(m) || m.includes(raw));
+            });
+
+            // 防呆：如果分割完無人 (例如打錯字)，當全員算
+            if (involvedMembers.length === 0) involvedMembers = members;
+        }
+
+        // --- C. 分攤金額 ---
+        let splitAmount = amount / involvedMembers.length;
+
+        involvedMembers.forEach(m => {
+            if (currency === 'HKD') balances[m].hkd += splitAmount;
+            if (currency === 'JPY') balances[m].jpy += splitAmount;
+        });
+    });
+
+    // 如果有不明付款人，彈出警告
+    if (unknownPayers.size > 0) {
+        alert("⚠️ 發現不明付款人名單，請檢查 Google Sheet:\n" + Array.from(unknownPayers).join(", "));
+    }
+
+    // 5. 渲染結果
+    const tbody = document.getElementById('settlement-table-body');
+    tbody.innerHTML = '';
+
+    members.forEach(m => {
+        const hkdVal = balances[m].hkd;
+        const jpyVal = balances[m].jpy;
+
+        const formatMoney = (val, symbol) => {
+            // 容錯範圍 (JavaScript 浮點數運算會有 0.0000001 誤差)
+            if (Math.abs(val) < 1) return '<span style="color:#ccc;">-</span>';
+
+            let color = val > 0 ? '#d32f2f' : '#2e7d32'; // 紅色比錢，綠色收錢
+            let prefix = val > 0 ? '付 ' : '收 ';
+            let absText = Math.abs(val).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            
+            return `<span style="color:${color}; font-weight:bold;">
+                        ${prefix} ${symbol}${absText}
+                    </span>`;
+        };
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td style="font-weight:bold;">${m}</td>
+            <td>${formatMoney(hkdVal, '$')}</td>
+            <td>${formatMoney(jpyVal, '¥')}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    document.getElementById('settlement-result').style.display = 'block';
+}
     </script>
 </body>
 
